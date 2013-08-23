@@ -187,4 +187,7 @@
     <!-- Title shown in recents popup for uninstalling the application -->
     <string name="advanced_dev_option_uninstall">Удалить</string>
     <string name="status_bar_recent_inspect_item_title">О приложении</string>
+
+    <!-- Title shown in recents popup for showing app in floating mode -->
+    <string name="recent_float_mode_title">Режим всплывания</string>
 </resources>

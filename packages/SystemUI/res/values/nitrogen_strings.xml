@@ -282,4 +282,7 @@
     <string name="advanced_dev_option_force_stop">Force stop</string>
     <!-- Title shown in recents popup for uninstalling the application -->
     <string name="advanced_dev_option_uninstall">Uninstall</string>
+
+    <!-- Title shown in recents popup for showing app in floating mode -->
+    <string name="recent_float_mode_title">Floating mode</string>
 </resources>
