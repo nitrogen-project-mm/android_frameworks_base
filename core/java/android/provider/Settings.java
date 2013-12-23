@@ -3617,6 +3617,13 @@ public final class Settings {
         public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
 
         /**
+         * Volume key controls ringtone or media sound stream
+         *
+         * @hide
+         */
+        public static final String VOLUME_KEYS_CONTROL_MEDIA_STREAM = "volume_keys_control_media_stream";
+
+        /**
          * Network traffic indicator, goes from least to greatest significant bitwise
          * 0 = Display up-stream traffic if set
          * 1 = Display down-stream traffic if set
@@ -3624,7 +3631,7 @@ public final class Settings {
          * 16-31 = Refresh interval(ms) min: 250 max: 32750 default: 1000
          * @hide
          */
-	public static final String NETWORK_TRAFFIC_STATE = "network_traffic_state";
+        public static final String NETWORK_TRAFFIC_STATE = "network_traffic_state";
 
         /**
          * Whether or not to hide the network traffic indicator when there is no activity
@@ -3798,6 +3805,7 @@ public final class Settings {
          * @hide
          */
         public static final String STATUS_BAR_AM_PM = "status_bar_am_pm";
+
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
