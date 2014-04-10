@@ -87,6 +87,7 @@ public class RecentsActivity extends Activity implements RecentsView.RecentsView
     Runnable mAfterPauseRunnable;
 
     private ReferenceCountedTrigger mExitTrigger;
+    protected boolean mBackPressed;
 
     /**
      * A common Runnable to finish Recents either by calling finish() (with a custom animation) or
@@ -613,6 +614,13 @@ public class RecentsActivity extends Activity implements RecentsView.RecentsView
         dismissRecentsToFocusedTaskOrHome(true);
 
         mRecentsView.endFABanimation();
+
+        mBackPressed = true;
+        try {
+            dismissRecentsToFocusedTaskOrHome(true);
+        } finally {
+            mBackPressed = false;
+        }
     }
 
     /** Called when debug mode is triggered */
