@@ -292,6 +292,7 @@ public interface MetricsConstants {
     public static final int CARRIER_OPTIONS = 265;
     public static final int CIRCLE_APP = 266;
     public static final int HEADSUP_SETTINGS = 267;
+    public static final int BUTTON_SETTINGS = 268;
 
     // These constants must match those in the analytic pipeline, do not edit.
     // Add temporary values to the top of MetricsLogger instead.
