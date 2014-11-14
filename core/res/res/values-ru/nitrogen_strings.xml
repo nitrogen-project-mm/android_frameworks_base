@@ -49,4 +49,11 @@
     <string name="global_action_screenshot">Снимок экрана</string>
     <string name="global_action_search">Поиск</string>
     <string name="global_action_voicesearch">Голосовой поиск</string>
+
+    <string name="permgrouplab_security">Безопасность</string>
+    <string name="permgroupdesc_security">Разрешения, относящиеся к безопасности данных на устройстве.</string>
+    <string name="permlab_readPhoneBlacklist">Просмотр чёрного списка</string>
+    <string name="permdesc_readPhoneBlacklist">Приложение сможет считывать информацию о списке абонентов, от которых заблокированы входящие звонки или сообщения.</string>
+    <string name="permlab_changePhoneBlacklist">Изменение чёрного списка</string>
+    <string name="permdesc_changePhoneBlacklist">Приложение сможет изменять список абонентов, от которых заблокированы входящие звонки или сообщения.</string>
 </resources>
