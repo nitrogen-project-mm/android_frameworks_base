@@ -44,4 +44,9 @@
     <string name="permlab_setKeyguardWallpaper">установить обои экрана блокировки</string>
     <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
     <string name="permdesc_setKeyguardWallpaper">Позволяет приложению изменять фон экрана блокировки.</string>
+
+    <!-- Global Actions -->
+    <string name="global_action_screenshot">Снимок экрана</string>
+    <string name="global_action_search">Поиск</string>
+    <string name="global_action_voicesearch">Голосовой поиск</string>
 </resources>
