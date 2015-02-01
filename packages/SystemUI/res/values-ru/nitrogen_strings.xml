@@ -98,4 +98,11 @@
     <!-- Reboot/Recovery QS Tile -->
     <string name="quick_settings_reboot_label">Перезагрузка</string>
     <string name="quick_settings_reboot_recovery_label">В рекавери</string>
+
+    <!-- USB tether QS tile -->
+    <string name="accessibility_quick_settings_usb_tether_off">USB-модем выключен.</string>
+    <string name="accessibility_quick_settings_usb_tether_on">USB-модем включён.</string>
+    <string name="accessibility_quick_settings_usb_tether_changed_off">USB-модем выключен.</string>
+    <string name="accessibility_quick_settings_usb_tether_changed_on">USB-модем включён.</string>
+    <string name="quick_settings_usb_tether_label">USB-модем</string>
 </resources>
