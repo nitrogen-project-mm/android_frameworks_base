@@ -3653,6 +3653,12 @@ public final class Settings {
          */
         public static final String STATUS_BAR_IME_ARROWS = "status_bar_ime_arrows";
 
+         /**
+         * Whether the notification light will be allowed when in zen mode during downtime
+         * @hide
+         */
+        public static final String ALLOW_LIGHTS = "allow_lights";
+
         /**
          * volume answer
          * @hide
@@ -3713,6 +3719,7 @@ public final class Settings {
             NOTIFICATION_SOUND,
             STATUS_BAR_BATTERY_STYLE,
             STATUS_BAR_SHOW_BATTERY_PERCENT,
+            ALLOW_LIGHTS
         };
 
         /**
