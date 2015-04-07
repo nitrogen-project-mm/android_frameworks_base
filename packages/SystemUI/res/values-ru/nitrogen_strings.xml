@@ -139,4 +139,7 @@
 
     <!-- Dialog title for navigation bar button selection -->
     <string name="navbar_power_button">Кнопка питания</string>
+
+    <!-- QuickSettings: Sound [CHAR LIMIT=NONE] -->
+    <string name="quick_settings_sound_label">Звук</string>
 </resources>
