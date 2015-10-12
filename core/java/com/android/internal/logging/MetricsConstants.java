@@ -262,7 +262,10 @@ public interface MetricsConstants {
     public static final int TUNER_DEMO_MODE_ON = 236;
     public static final int TUNER_BATTERY_PERCENTAGE = 237;
     public static final int FUELGAUGE_INACTIVE_APPS = 238;
-
+    // QS Tiles
+    public static final int QS_BRIGHTNESS = 239;
+    public static final int QS_SCREEN_OFF = 240;
+    public static final int QS_SCREENSHOT = 241;
     // Lock screen weather settings
     public static final int LOCKSCREEN_WEATHER_SETTINGS = 251;
 
