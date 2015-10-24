@@ -1,4 +1,4 @@
-package com.android.internal.util.chroma;
+package com.android.internal.util.nitrogen;
 
 import android.app.ActivityManagerNative;
 import android.app.IActivityManager;
