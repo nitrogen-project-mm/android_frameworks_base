@@ -708,6 +708,7 @@ public class UsbDeviceManager {
             int id = 0;
             Resources r = mContext.getResources();
             if (mConnected) {
+		mUsbDataUnlocked = true;
                 if (!mUsbDataUnlocked) {
                     id = com.android.internal.R.string.usb_charging_notification_title;
                 } else if (UsbManager.containsFunction(mCurrentFunctions,
