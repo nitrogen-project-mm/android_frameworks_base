@@ -266,6 +266,7 @@ public interface MetricsConstants {
     public static final int QS_BRIGHTNESS = 239;
     public static final int QS_SCREEN_OFF = 240;
     public static final int QS_SCREENSHOT = 241;
+    public static final int QS_SYNC = 242;
     // Lock screen weather settings
     public static final int LOCKSCREEN_WEATHER_SETTINGS = 251;
 

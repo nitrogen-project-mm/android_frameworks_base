@@ -26,14 +26,6 @@
 	<string name="battery_saver_dismiss_title">Отменить</string>
 	<string name="battery_saver_notification_action_text_short">Выключить</string>
 
-	<!-- QS location sensors -->
-	<!-- Content description of the location tile in quick settings when on, battery saving mode (not shown on the screen). [CHAR LIMIT=NONE] -->
-	<string name="accessibility_quick_settings_location_battery_saving">Местоположение: режим экономии батареи.</string>
-	<!-- Content description of the location tile in quick settings when on, sensors only mode (not shown on the screen). [CHAR LIMIT=NONE] -->
-	<string name="accessibility_quick_settings_location_sensors_only">Местоположение: по спутникам GPS.</string>
-	<!-- Content description of the location tile in quick settings when on, high accuracy mode (not shown on the screen). [CHAR LIMIT=NONE] -->
-	<string name="accessibility_quick_settings_location_high_accuracy">Местоположение: высокая точность.</string>
-
 	<!-- QuickSettings: Location (On, low-power) [CHAR LIMIT=NONE] -->
 	<string name="quick_settings_location_battery_saving_label">Экономия батареи</string>
 	<!-- QuickSettings: Location (On, gps-only) [CHAR LIMIT=NONE] -->
@@ -66,4 +58,5 @@
 	<string name="quick_settings_brightness_label">Яркость</string>
 	<string name="quick_settings_screen_off_label">Спящий режим</string>
 	<string name="quick_settings_screenshot_label">Скриншот</string>
+	<string name="quick_settings_sync_label">Синхронизация</string>
 </resources>
