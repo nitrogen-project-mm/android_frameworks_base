@@ -61,4 +61,9 @@
 
 	<!-- Screenshot Delete Toast -->
 	<string name="delete_screenshot_toast">Скриншот удалён</string>
+
+	<!-- Quick settings -->
+	<string name="quick_settings_brightness_label">Яркость</string>
+	<string name="quick_settings_screen_off_label">Спящий режим</string>
+	<string name="quick_settings_screenshot_label">Скриншот</string>
 </resources>
