@@ -59,4 +59,7 @@
 	<string name="quick_settings_screen_off_label">Спящий режим</string>
 	<string name="quick_settings_screenshot_label">Скриншот</string>
 	<string name="quick_settings_sync_label">Синхронизация</string>
+	<!-- Screen timeout tile -->
+	<string name="quick_settings_timeout_label">Таймаут</string>
+        <string name="quick_settings_screen_timeout_detail_title">Таймаут экрана</string>
 </resources>
