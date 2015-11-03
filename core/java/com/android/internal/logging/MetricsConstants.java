@@ -271,6 +271,21 @@ public interface MetricsConstants {
     public static final int QS_TIMEOUT = 244;
     // Lock screen weather settings
     public static final int LOCKSCREEN_WEATHER_SETTINGS = 251;
+    // Nitrogen
+    public static final int NOTIFICATION_LIGHT_SETTINGS = 252;
+    public static final int BATTERY_LIGHT_SETTINGS = 253;
+    public static final int ROTATION_SETTINGS = 254;
+    public static final int BATTERY_SETTINGS = 255;
+    public static final int ABOUT_NITROGEN = 256;
+    public static final int NITROGEN_SETTINGS = 257;
+    public static final int GESTURE_SETTINGS = 258;
+    public static final int LOCKSCREEN_SETTINGS = 259;
+    public static final int NAVBAR_SETTINGS = 260;
+    public static final int STATUSBAR_SETTINGS = 261;
+    public static final int VOLUME_SETTINGS = 262;
+    public static final int TRAFFIC_SETTINGS = 263;
+    public static final int MISC_SETTINGS = 264;
+    public static final int POWER_SETTINGS = 264;
 
     // These constants must match those in the analytic pipeline, do not edit.
     // Add temporary values to the top of MetricsLogger instead.
