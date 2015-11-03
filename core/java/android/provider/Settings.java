@@ -3698,7 +3698,6 @@ public final class Settings {
             DOCK_SOUNDS_ENABLED,        // moved to global
             LOCKSCREEN_SOUNDS_ENABLED,
             SHOW_WEB_SUGGESTIONS,
-            NOTIFICATION_LIGHT_PULSE,
             SIP_CALL_OPTIONS,
             SIP_RECEIVE_CALLS,
             POINTER_SPEED,
@@ -6173,6 +6172,22 @@ public final class Settings {
          public static final String KILL_APP_LONGPRESS_BACK = "kill_app_longpress_back";
 
         /**
+         * Whether the camera launch gesture should be disabled.
+         *
+         * @hide
+         */
+        public static final String CAMERA_GESTURE_DISABLED = "camera_gesture_disabled";
+
+        /**
+         * Whether the camera launch gesture to double tap the power button when the screen is off
+         * should be disabled.
+         *
+         * @hide
+         */
+        public static final String CAMERA_DOUBLE_TAP_POWER_GESTURE_DISABLED =
+                "camera_double_tap_power_gesture_disabled";
+
+        /**
          * This are the settings to be backed up.
          *
          * NOTE: Settings are backed up and restored in the order they appear
@@ -6228,6 +6243,7 @@ public final class Settings {
             MOUNT_UMS_NOTIFY_ENABLED,
             SLEEP_TIMEOUT,
             DOUBLE_TAP_TO_WAKE,
+            CAMERA_GESTURE_DISABLED,
         };
 
         /**
