@@ -49,7 +49,7 @@ public class TunerFragment extends PreferenceFragment {
 
         addPreferencesFromResource(R.xml.tuner_prefs);
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(false);
 
         findPreference(KEY_QS_TUNER).setOnPreferenceClickListener(new OnPreferenceClickListener() {
             @Override
