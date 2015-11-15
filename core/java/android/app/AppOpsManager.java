@@ -238,7 +238,9 @@ public class AppOpsManager {
     /** @hide Get device accounts. */
     public static final int OP_GET_ACCOUNTS = 62;
     /** @hide */
-    public static final int _NUM_OP = 63;
+    public static final int OP_ALARM_WAKEUP = 63;
+    /** @hide */
+    public static final int _NUM_OP = 64;
 
     /** Access to coarse location information. */
     public static final String OPSTR_COARSE_LOCATION = "android:coarse_location";
@@ -336,6 +338,8 @@ public class AppOpsManager {
     /** @hide Get device accounts. */
     public static final String OPSTR_GET_ACCOUNTS
             = "android:get_accounts";
+    public static final String OPSTR_ALARM_WAKEUP
+            = "android:alarm_wakeup";
 
     /**
      * This maps each operation to the operation that serves as the
@@ -409,6 +413,7 @@ public class AppOpsManager {
             OP_WRITE_EXTERNAL_STORAGE,
             OP_TURN_SCREEN_ON,
             OP_GET_ACCOUNTS,
+            OP_ALARM_WAKEUP,
     };
 
     /**
@@ -478,7 +483,8 @@ public class AppOpsManager {
             OPSTR_READ_EXTERNAL_STORAGE,
             OPSTR_WRITE_EXTERNAL_STORAGE,
             null,
-            OPSTR_GET_ACCOUNTS
+            OPSTR_GET_ACCOUNTS,
+            null
     };
 
     /**
@@ -549,6 +555,7 @@ public class AppOpsManager {
             "WRITE_EXTERNAL_STORAGE",
             "TURN_ON_SCREEN",
             "GET_ACCOUNTS",
+            "ALARM_WAKEUP",
     };
 
     /**
@@ -618,7 +625,8 @@ public class AppOpsManager {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             null, // no permission for turning the screen on
-            Manifest.permission.GET_ACCOUNTS
+            Manifest.permission.GET_ACCOUNTS,
+            null // OP_ALARM_WAKEUP
     };
 
     /**
@@ -690,6 +698,7 @@ public class AppOpsManager {
             null, // WRITE_EXTERNAL_STORAGE
             null, // TURN_ON_SCREEN
             null, // GET_ACCOUNTS
+            null, // OP_ALARM_WAKEUP
     };
 
     /**
@@ -760,6 +769,7 @@ public class AppOpsManager {
             false, // WRITE_EXTERNAL_STORAGE
             false, // TURN_ON_SCREEN
             false, // GET_ACCOUNTS
+            true, //ALARM_WAKEUP
     };
 
     /**
@@ -829,6 +839,7 @@ public class AppOpsManager {
             AppOpsManager.MODE_ALLOWED,
             AppOpsManager.MODE_ALLOWED,  // OP_TURN_ON_SCREEN
             AppOpsManager.MODE_ALLOWED,
+            AppOpsManager.MODE_ALLOWED, // OP_ALARM_WAKEUP
     };
 
     /**
@@ -855,6 +866,7 @@ public class AppOpsManager {
             false,
             false,
             true,      // OP_WRITE_SMS
+            false,
             false,
             false,
             false,
