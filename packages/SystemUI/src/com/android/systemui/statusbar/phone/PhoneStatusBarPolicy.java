@@ -32,6 +32,7 @@ import android.os.IRemoteCallback;
 import android.os.RemoteException;
 import android.os.UserHandle;
 import android.os.UserManager;
+import android.provider.Settings;
 import android.provider.Settings.Global;
 import android.telecom.TelecomManager;
 import android.util.Log;
@@ -64,6 +65,7 @@ public class PhoneStatusBarPolicy implements Callback {
     private static final String SLOT_VOLUME = "volume";
     private static final String SLOT_ALARM_CLOCK = "alarm_clock";
     private static final String SLOT_MANAGED_PROFILE = "managed_profile";
+    private static final String SLOT_HEADSET = "headset";
 
     private final Context mContext;
     private final StatusBarManager mService;
@@ -106,6 +108,9 @@ public class PhoneStatusBarPolicy implements Callback {
             else if (action.equals(TelecomManager.ACTION_CURRENT_TTY_MODE_CHANGED)) {
                 updateTTY(intent);
             }
+            else if (action.equals(Intent.ACTION_HEADSET_PLUG)) {
+                updateHeadset(intent);
+            }
         }
     };
 
@@ -127,6 +132,7 @@ public class PhoneStatusBarPolicy implements Callback {
         filter.addAction(AudioManager.INTERNAL_RINGER_MODE_CHANGED_ACTION);
         filter.addAction(TelephonyIntents.ACTION_SIM_STATE_CHANGED);
         filter.addAction(TelecomManager.ACTION_CURRENT_TTY_MODE_CHANGED);
+        filter.addAction(Intent.ACTION_HEADSET_PLUG);
         mContext.registerReceiver(mIntentReceiver, filter, null, mHandler);
 
         // listen for user / profile change.
@@ -139,6 +145,10 @@ public class PhoneStatusBarPolicy implements Callback {
         // TTY status
         mService.setIcon(SLOT_TTY,  R.drawable.stat_sys_tty_mode, 0, null);
         mService.setIconVisibility(SLOT_TTY, false);
+
+        // headset
+        mService.setIcon(SLOT_HEADSET, R.drawable.stat_sys_headset, 0, null);
+        mService.setIconVisibility(SLOT_HEADSET, false);
 
         // bluetooth status
         updateBluetooth();
@@ -171,6 +181,13 @@ public class PhoneStatusBarPolicy implements Callback {
         mService.setIcon(SLOT_MANAGED_PROFILE, R.drawable.stat_sys_managed_profile_status, 0,
                 mContext.getString(R.string.accessibility_managed_profile));
         mService.setIconVisibility(SLOT_MANAGED_PROFILE, false);
+    }
+
+    private final void updateHeadset(Intent intent) {
+        int state = intent.getIntExtra("state", 0);
+        boolean mHeadsetIcon = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.SHOW_HEADSET_ICON, 1) == 1;
+        mService.setIconVisibility(SLOT_HEADSET, (state == 1 && mHeadsetIcon) ? true : false);
     }
 
     public void setZenMode(int zen) {

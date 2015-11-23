@@ -3534,6 +3534,11 @@ public final class Settings {
         public static final String RECENTS_CLEAR_ALL_DISMISS_ALL = "recents_clear_all_dismiss_all";
 
         /**
+         * @hide
+         */
+        public static final String SHOW_HEADSET_ICON = "show_headset_icon";
+
+        /**
          * I am the lolrus.
          * <p>
          * Nonzero values indicate that the user has a bukkit.
