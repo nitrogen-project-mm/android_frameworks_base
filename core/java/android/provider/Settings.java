@@ -3588,6 +3588,13 @@ public final class Settings {
         public static final String SHOW_HEADSET_ICON = "show_headset_icon";
 
         /**
+         * Which applications to enable heads up notifications for
+         *
+         * @hide
+         */
+        public static final String HEADS_UP_WHITELIST_VALUES = "heads_up_whitelist_values";
+
+        /**
          * I am the lolrus.
          * <p>
          * Nonzero values indicate that the user has a bukkit.
