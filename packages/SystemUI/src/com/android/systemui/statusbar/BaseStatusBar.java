@@ -106,7 +106,7 @@ import com.android.systemui.statusbar.phone.StatusBarKeyguardViewManager;
 import com.android.systemui.statusbar.policy.HeadsUpManager;
 import com.android.systemui.statusbar.policy.PreviewInflater;
 import com.android.systemui.statusbar.stack.NotificationStackScrollLayout;
-import cyanogenmod.providers.Settings;
+import android.provider.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -243,6 +243,9 @@ public abstract class BaseStatusBar extends SystemUI implements
     private ArrayList<String> mDndList = new ArrayList<String>();
     private ArrayList<String> mBlacklist = new ArrayList<String>();
 
+    private boolean mNotifySilent;
+    private boolean mNonFS;
+
     @Override  // NotificationData.Environment
     public boolean isDeviceProvisioned() {
         return mDeviceProvisioned;
@@ -287,6 +290,10 @@ public abstract class BaseStatusBar extends SystemUI implements
                     Settings.System.HEADS_UP_CUSTOM_VALUES), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HEADS_UP_BLACKLIST_VALUES), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.HEADS_UP_NOTIFY_SILENT), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.HEADS_UP_NON_FS), false, this);
             update();
         }
 
@@ -304,6 +311,11 @@ public abstract class BaseStatusBar extends SystemUI implements
                     Settings.System.HEADS_UP_BLACKLIST_VALUES);
             splitAndAddToArrayList(mDndList, dndString, "\\|");
             splitAndAddToArrayList(mBlacklist, blackString, "\\|");
+
+            mNotifySilent = Settings.System.getInt(resolver,
+                    Settings.System.HEADS_UP_NOTIFY_SILENT, 1) == 1;
+            mNonFS = Settings.System.getInt(resolver,
+                    Settings.System.HEADS_UP_NON_FS, 1) == 1;
         }
     };
 
@@ -2110,12 +2122,13 @@ public abstract class BaseStatusBar extends SystemUI implements
 
         Notification notification = sbn.getNotification();
         // some predicates to make the boolean logic legible
-        boolean isNoisy = (notification.defaults & Notification.DEFAULT_SOUND) != 0
+        boolean isNoisy = mNotifySilent
+                || (notification.defaults & Notification.DEFAULT_SOUND) != 0
                 || (notification.defaults & Notification.DEFAULT_VIBRATE) != 0
                 || notification.sound != null
                 || notification.vibrate != null;
         boolean isHighPriority = sbn.getScore() >= INTERRUPTION_THRESHOLD;
-        boolean isFullscreen = notification.fullScreenIntent != null;
+        boolean isFullscreen = mNonFS || notification.fullScreenIntent != null;
         boolean hasTicker = mHeadsUpTicker && !TextUtils.isEmpty(notification.tickerText);
         boolean isAllowed = notification.extras.getInt(Notification.EXTRA_AS_HEADS_UP,
                 Notification.HEADS_UP_ALLOWED) != Notification.HEADS_UP_NEVER;

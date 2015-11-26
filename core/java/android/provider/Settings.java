@@ -3553,6 +3553,20 @@ public final class Settings {
         public static final String HEADS_UP_BLACKLIST_VALUES = "heads_up_blacklist_values";
 
         /**
+         * Whether heads up will notify silent notifications
+         *
+         * @hide
+         */
+        public static final String HEADS_UP_NOTIFY_SILENT = "heads_up_notify_silent";
+
+        /**
+         * Whether to show heads up on non-fullscreen apps
+         *
+         * @hide
+         */
+        public static final String HEADS_UP_NON_FS = "heads_up_non_fs";
+
+        /**
          * I am the lolrus.
          * <p>
          * Nonzero values indicate that the user has a bukkit.
