@@ -86,4 +86,9 @@
     <string name="navbar_menu_big_button">Меню</string>
     <string name="accessibility_dpad_left">Курсор влево</string>
     <string name="accessibility_dpad_right">Курсор вправо</string>
+
+    <!-- The text for the button in the notification window-shade that clears
+         all of the currently visible notifications. [CHAR LIMIT=10]-->
+    <string name="clear_recents">Закрыть все недавние</string>
+
 </resources>
