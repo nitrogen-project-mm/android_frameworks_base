@@ -207,6 +207,7 @@ public class QsTuner extends Fragment implements Callback {
         else if (spec.equals("nfc")) return R.string.quick_settings_nfc_label;
         else if (spec.equals("timeout")) return R.string.quick_settings_timeout_label;
         else if (spec.equals("compass")) return R.string.quick_settings_compass_label;
+        else if (spec.equals("reboot")) return R.string.quick_settings_reboot_label;
         return 0;
     }
 
@@ -452,6 +453,7 @@ public class QsTuner extends Fragment implements Callback {
             else if (mSpec.equals("nfc")) return R.drawable.ic_qs_nfc_on;
             else if (mSpec.equals("timeout")) return R.drawable.ic_qs_screen_timeout_vector;
             else if (mSpec.equals("compass")) return R.drawable.ic_qs_compass_on;
+            else if (mSpec.equals("reboot")) return R.drawable.ic_qs_reboot;
             return R.drawable.android;
         }
 

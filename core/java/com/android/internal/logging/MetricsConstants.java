@@ -270,6 +270,7 @@ public interface MetricsConstants {
     public static final int QS_NFC = 243;
     public static final int QS_TIMEOUT = 244;
     public static final int QS_COMPASS = 245;
+    public static final int QS_REBOOT = 246;
     // Lock screen weather settings
     public static final int LOCKSCREEN_WEATHER_SETTINGS = 251;
     // Nitrogen
