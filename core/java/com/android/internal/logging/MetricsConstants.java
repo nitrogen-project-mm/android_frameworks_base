@@ -290,6 +290,7 @@ public interface MetricsConstants {
     public static final int MISC_SETTINGS = 264;
     public static final int POWER_SETTINGS = 264;
     public static final int CARRIER_OPTIONS = 265;
+    public static final int CIRCLE_APP = 266;
 
     // These constants must match those in the analytic pipeline, do not edit.
     // Add temporary values to the top of MetricsLogger instead.
