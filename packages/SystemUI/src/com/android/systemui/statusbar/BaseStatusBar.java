@@ -78,7 +78,6 @@ import android.view.WindowManager;
 import android.view.WindowManagerGlobal;
 import android.view.accessibility.AccessibilityManager;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.DateTimeView;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
@@ -106,7 +105,6 @@ import com.android.systemui.statusbar.phone.StatusBarKeyguardViewManager;
 import com.android.systemui.statusbar.policy.HeadsUpManager;
 import com.android.systemui.statusbar.policy.PreviewInflater;
 import com.android.systemui.statusbar.stack.NotificationStackScrollLayout;
-import android.provider.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -240,12 +238,6 @@ public abstract class BaseStatusBar extends SystemUI implements
 
     protected AssistManager mAssistManager;
 
-    private ArrayList<String> mDndList = new ArrayList<String>();
-    private ArrayList<String> mBlacklist = new ArrayList<String>();
-
-    private boolean mNotifySilent;
-    private boolean mNonFS;
-
     @Override  // NotificationData.Environment
     public boolean isDeviceProvisioned() {
         return mDeviceProvisioned;
@@ -276,46 +268,6 @@ public abstract class BaseStatusBar extends SystemUI implements
             mUsersAllowingPrivateNotifications.clear();
             // ... and refresh all the notifications
             updateNotifications();
-        }
-    };
-
-    private class SettingsObserver extends ContentObserver {
-        public SettingsObserver(Handler handler) {
-            super(handler);
-        }
-
-        public void observe() {
-            ContentResolver resolver = mContext.getContentResolver();
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HEADS_UP_CUSTOM_VALUES), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HEADS_UP_BLACKLIST_VALUES), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HEADS_UP_NOTIFY_SILENT), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HEADS_UP_NON_FS), false, this);
-            update();
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            update();
-        }
-
-        private void update() {
-            ContentResolver resolver = mContext.getContentResolver();
-
-            final String dndString = Settings.System.getString(resolver,
-                    Settings.System.HEADS_UP_CUSTOM_VALUES);
-            final String blackString = Settings.System.getString(resolver,
-                    Settings.System.HEADS_UP_BLACKLIST_VALUES);
-            splitAndAddToArrayList(mDndList, dndString, "\\|");
-            splitAndAddToArrayList(mBlacklist, blackString, "\\|");
-
-            mNotifySilent = Settings.System.getInt(resolver,
-                    Settings.System.HEADS_UP_NOTIFY_SILENT, 1) == 1;
-            mNonFS = Settings.System.getInt(resolver,
-                    Settings.System.HEADS_UP_NON_FS, 1) == 1;
         }
     };
 
@@ -705,9 +657,6 @@ public abstract class BaseStatusBar extends SystemUI implements
         mContext.registerReceiverAsUser(mAllUsersReceiver, UserHandle.ALL, allUsersFilter,
                 null, null);
         updateCurrentProfilesCache();
-
-        SettingsObserver observer = new SettingsObserver(mHandler);
-        observer.observe();
     }
 
     protected void notifyUserAboutHiddenNotifications() {
@@ -2115,31 +2064,20 @@ public abstract class BaseStatusBar extends SystemUI implements
             return false;
         }
 
-        // check if package is blacklisted first
-        if (isPackageBlacklisted(sbn.getPackageName()) || isPackageInDnd(getTopLevelPackage())) {
-            return false;
-        }
-
         Notification notification = sbn.getNotification();
         // some predicates to make the boolean logic legible
-        boolean isNoisy = mNotifySilent
-                || (notification.defaults & Notification.DEFAULT_SOUND) != 0
+        boolean isNoisy = (notification.defaults & Notification.DEFAULT_SOUND) != 0
                 || (notification.defaults & Notification.DEFAULT_VIBRATE) != 0
                 || notification.sound != null
                 || notification.vibrate != null;
         boolean isHighPriority = sbn.getScore() >= INTERRUPTION_THRESHOLD;
-        boolean isFullscreen = mNonFS || notification.fullScreenIntent != null;
+        boolean isFullscreen = notification.fullScreenIntent != null;
         boolean hasTicker = mHeadsUpTicker && !TextUtils.isEmpty(notification.tickerText);
         boolean isAllowed = notification.extras.getInt(Notification.EXTRA_AS_HEADS_UP,
                 Notification.HEADS_UP_ALLOWED) != Notification.HEADS_UP_NEVER;
         boolean accessibilityForcesLaunch = isFullscreen
                 && mAccessibilityManager.isTouchExplorationEnabled();
         boolean justLaunchedFullScreenIntent = entry.hasJustLaunchedFullScreenIntent();
-
-        final InputMethodManager inputMethodManager = (InputMethodManager)
-                mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        boolean isIMEShowing = inputMethodManager.isImeShowing();
 
         boolean interrupt = (isFullscreen || (isHighPriority && (isNoisy || hasTicker)))
                 && isAllowed
@@ -2148,8 +2086,7 @@ public abstract class BaseStatusBar extends SystemUI implements
                 && mPowerManager.isScreenOn()
                 && (!mStatusBarKeyguardViewManager.isShowing()
                         || mStatusBarKeyguardViewManager.isOccluded())
-                && !mStatusBarKeyguardViewManager.isInputRestricted()
-                && !isIMEShowing;
+                && !mStatusBarKeyguardViewManager.isInputRestricted();
         try {
             interrupt = interrupt && !mDreamManager.isDreaming();
         } catch (RemoteException e) {
@@ -2160,34 +2097,6 @@ public abstract class BaseStatusBar extends SystemUI implements
     }
 
     protected abstract boolean isSnoozedPackage(StatusBarNotification sbn);
-
-    private String getTopLevelPackage() {
-        final ActivityManager am = (ActivityManager)
-                mContext.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
-        ComponentName componentInfo = taskInfo.get(0).topActivity;
-        return componentInfo.getPackageName();
-    }
-
-    private boolean isPackageInDnd(String packageName) {
-        return mDndList.contains(packageName);
-    }
-
-    private boolean isPackageBlacklisted(String packageName) {
-        return mBlacklist.contains(packageName);
-    }
-
-    private void splitAndAddToArrayList(ArrayList<String> arrayList,
-            String baseString, String separator) {
-        // clear first
-        arrayList.clear();
-        if (baseString != null) {
-            final String[] array = TextUtils.split(baseString, separator);
-            for (String item : array) {
-                arrayList.add(item.trim());
-            }
-        }
-    }
 
     public void setInteracting(int barWindow, boolean interacting) {
         // hook for subclasses
