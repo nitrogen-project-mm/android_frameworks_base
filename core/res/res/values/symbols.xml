@@ -2359,4 +2359,6 @@
 
   <!-- IpReachability Monitor -->
   <java-symbol type="bool" name="config_wifi_ipreachability_monitor" />
+
+  <java-symbol type="drawable" name="nosgear" />
 </resources>
