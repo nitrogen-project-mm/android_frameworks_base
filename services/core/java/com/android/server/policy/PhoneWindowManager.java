@@ -123,7 +123,7 @@ import com.android.internal.R;
 import com.android.internal.os.DeviceKeyHandler;
 import com.android.internal.policy.IKeyguardService;
 import com.android.internal.statusbar.IStatusBarService;
-import com.android.internal.util.nitrogen.DevUtils;
+import com.android.internal.util.nitrogen.ActionUtils;
 import com.android.internal.util.ScreenShapeHelper;
 import com.android.internal.widget.PointerLocationView;
 import com.android.server.GestureLauncherService;
@@ -224,6 +224,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private static final int KEY_ACTION_IN_APP_SEARCH = 5;
     private static final int KEY_ACTION_LAUNCH_CAMERA = 6;
     private static final int KEY_ACTION_SLEEP = 7;
+    private static final int KEY_ACTION_LAST_APP = 8;
 
     // Masks for checking presence of hardware keys.
     // Must match values in core/res/res/values/config.xml
@@ -1329,7 +1330,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     Runnable mBackLongPress = new Runnable() {
         public void run() {
-            if (DevUtils.killForegroundApplication(mContext)) {
+            if (ActionUtils.killForegroundApp(mContext, mCurrentUserId)) {
                 performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false);
                 Toast.makeText(mContext, R.string.app_killed_message, Toast.LENGTH_SHORT).show();
                 // Do nothing; just let it go.
@@ -1465,6 +1466,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             case KEY_ACTION_SLEEP:
                 mPowerManager.goToSleep(SystemClock.uptimeMillis());
                 break;
+            case KEY_ACTION_LAST_APP:
+                ActionUtils.switchToLastApp(mContext, mCurrentUserId);
             default:
                 break;
          }
