@@ -2453,4 +2453,8 @@
 
     <!-- IpReachability monitor enable/Disable -->
     <bool translatable="false" name="config_wifi_ipreachability_monitor">false</bool>
+
+    <!-- The BT name of the keyboard packaged with the device. If this is defined, SystemUI will
+         automatically try to pair with it when the device exits tablet mode. -->
+    <string translatable="false" name="config_packagedKeyboardName"></string>
 </resources>
