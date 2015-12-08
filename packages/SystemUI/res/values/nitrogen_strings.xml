@@ -181,4 +181,6 @@
     <string name="accessibility_quick_settings_lock_screen_changed_off">Lock screen turned off.</string>
     <!-- Announcement made when lock screen changes to on (not shown on the screen). [CHAR LIMIT=NONE] -->
     <string name="accessibility_quick_settings_lock_screen_changed_on">Lock screen turned on.</string>
+
+    <string name="header_pack_label">Default</string>
 </resources>

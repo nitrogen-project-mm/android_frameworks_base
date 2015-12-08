@@ -70,6 +70,8 @@ import com.android.systemui.statusbar.policy.NextAlarmController;
 import com.android.systemui.statusbar.policy.UserInfoController;
 import com.android.systemui.tuner.TunerService;
 
+import android.util.Log;
+
 import java.text.NumberFormat;
 
 /**
