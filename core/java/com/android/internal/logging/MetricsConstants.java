@@ -272,6 +272,7 @@ public interface MetricsConstants {
     public static final int QS_COMPASS = 245;
     public static final int QS_REBOOT = 246;
     public static final int QS_TETHER = 247;
+    public static final int QS_EXPANDED = 248;
     // Lock screen weather settings
     public static final int LOCKSCREEN_WEATHER_SETTINGS = 251;
     // Nitrogen
