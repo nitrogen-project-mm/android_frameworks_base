@@ -108,6 +108,8 @@ import android.view.animation.PathInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.systemui.cm.UserContentObserver;
+import com.android.internal.util.nitrogen.StackBlur;
 import com.android.internal.util.nitrogen.WeatherControllerImpl;
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.statusbar.NotificationVisibility;
@@ -380,6 +382,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     private int mBlurRadius;
     private Bitmap mBlurredImage = null;
+    private boolean mUseAlternativeBlur;
 
     // ensure quick settings is disabled until the current user makes it through the setup wizard
     private boolean mUserSetup = false;
@@ -429,12 +432,15 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     };
 
-    class SettingsObserver extends ContentObserver {
+   class SettingsObserver extends UserContentObserver {
         SettingsObserver(Handler handler) {
             super(handler);
         }
 
-        void observe() {
+        @Override
+        protected void observe() {
+            super.observe();
+
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.BATTERY_SAVER_MODE_COLOR),
@@ -442,6 +448,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LOCKSCREEN_BLUR_RADIUS),
                     false, this, UserHandle.USER_ALL);
+            update();
         }
 
         @Override
@@ -460,6 +467,14 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             update();
         }
 
+        @Override
+        protected void unobserve() {
+            super.unobserve();
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.unregisterContentObserver(this);
+        }
+
+         @Override
          public void update() {
             ContentResolver resolver = mContext.getContentResolver();
             mBlurRadius = Settings.System.getInt(resolver,
@@ -714,6 +729,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         notifyUserAboutHiddenNotifications();
 
         mScreenPinningRequest = new ScreenPinningRequest(mContext);
+
+        mUseAlternativeBlur = mContext.getResources().getBoolean(
+                R.bool.blur_need_alternative_way);
+
     }
 
     // ================================================================================
@@ -4354,14 +4373,16 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     }
 
     public void setBackgroundBitmap(Bitmap bmp) {
-        if (bmp != null) {
-            if (mBlurRadius != 0) {
-                mBlurredImage = blurBitmap(bmp, mBlurRadius);
+        if (bmp == null && mBlurredImage == null) return;
+
+        if (bmp != null && mBlurRadius != 0) {
+            if (mUseAlternativeBlur) {
+                mBlurredImage = StackBlur.blurBitmap(bmp, mBlurRadius);
             } else {
-                mBlurredImage = bmp;
+                mBlurredImage = blurBitmap(bmp, mBlurRadius);
             }
         } else {
-            mBlurredImage = null;
+            mBlurredImage = bmp;
         }
 
         mHandler.post(new Runnable() {
