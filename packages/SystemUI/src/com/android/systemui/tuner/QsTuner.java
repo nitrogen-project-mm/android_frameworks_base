@@ -210,6 +210,7 @@ public class QsTuner extends Fragment implements Callback {
         else if (spec.equals("reboot")) return R.string.quick_settings_reboot_label;
         else if (spec.equals("usb_tether")) return R.string.quick_settings_usb_tether_label;
         else if (spec.equals("expanded_desktop")) return R.string.quick_settings_expanded_desktop;
+        else if (spec.equals("lockscreen")) return R.string.quick_settings_lockscreen_label;
         return 0;
     }
 
@@ -459,6 +460,7 @@ public class QsTuner extends Fragment implements Callback {
             else if (mSpec.equals("reboot")) return R.drawable.ic_qs_reboot;
             else if (mSpec.equals("usb_tether")) return R.drawable.ic_qs_usb_tether_off;
             else if (mSpec.equals("expanded_desktop")) return R.drawable.ic_qs_expanded_desktop;
+            else if (mSpec.equals("lockscreen")) return R.drawable.ic_qs_lock_screen_on;
             return R.drawable.android;
         }
 

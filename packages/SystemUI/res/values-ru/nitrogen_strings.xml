@@ -114,4 +114,8 @@
     <!-- Expanded Desktop QS Tile -->
     <string name="quick_settings_expanded_desktop">Расширенный</string>
     <string name="quick_settings_expanded_desktop_off">Нормальный</string>
+
+    <!-- Lockscreen QS Tile -->
+    <string name="quick_settings_lockscreen_label">Экран блокировки</string>
+    <string name="quick_settings_lockscreen_label_enforced">Экран блокировки принудительно</string>
 </resources>
