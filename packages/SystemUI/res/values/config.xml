@@ -289,9 +289,5 @@
 
     <!-- Duration of the expansion animation in the volume dialog -->
     <item name="volume_expand_animation_duration" type="integer">300</item>
-
-    <!-- Use alternative way to blur lockscreen -->
-    <bool name="blur_need_alternative_way">false</bool>
-
 </resources>
 

@@ -1,6 +1,14 @@
 package com.android.internal.util.nitrogen;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.renderscript.Allocation;
+import android.renderscript.Allocation.MipmapControl;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
+
+import com.android.internal.R;
 
 /**
  * Blur using Java code.
@@ -29,7 +37,10 @@ import android.graphics.Bitmap;
  * @copyright: Enrique López Mañas
  * @license: Apache License 2.0
  */
-public class StackBlur {
+public class Blur {
+    private static final int MAX_BLUR_WIDTH = 900;
+    private static final int MAX_BLUR_HEIGHT = 1600;
+
     private static final short[] stackblur_mul = {
             512, 512, 456, 512, 328, 456, 335, 512, 405, 328, 271, 456, 388, 335, 292, 512,
             454, 405, 364, 328, 298, 271, 496, 456, 420, 388, 360, 335, 312, 292, 273, 512,
@@ -68,18 +79,46 @@ public class StackBlur {
             24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24
     };
 
-    public static Bitmap blurBitmap(Bitmap original, int radius) {
-        int w = original.getWidth();
-        int h = original.getHeight();
-        int[] currentPixels = new int[w * h];
-        original.getPixels(currentPixels, 0, w, 0, 0, w, h);
-
-        blur(currentPixels, w, h, radius);
-
-        return Bitmap.createBitmap(currentPixels, w, h, Bitmap.Config.ARGB_8888);
+    public static Bitmap blurBitmap(Context context, Bitmap bmp, int radius) {
+        boolean useStackBlur = context.getResources().getBoolean(R.bool.config_use_stackblur);
+        if (useStackBlur) {
+            return stackBlur(bmp, radius);
+        } else {
+            return blur(context, bmp, radius);
+        }
     }
 
-    private static void blur(int[] src, int w, int h, int radius) {
+    private static Bitmap blur(Context context, Bitmap bmp, int radius) {
+        // scale if bitmap is too large.
+        if (bmp.getWidth() > MAX_BLUR_WIDTH) {
+            bmp = Bitmap.createScaledBitmap(bmp, MAX_BLUR_WIDTH, MAX_BLUR_HEIGHT, true);
+        } else if (!bmp.isMutable()) {
+            bmp = bmp.copy(Bitmap.Config.ARGB_8888, true);
+        }
+
+        RenderScript rs = RenderScript.create(context);
+
+        Allocation input = Allocation.createFromBitmap(
+                rs, bmp, MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+        Allocation output = Allocation.createTyped(rs, input.getType());
+
+        ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+        script.setInput(input);
+        script.setRadius(radius);
+        script.forEach(output);
+
+        output.copyTo(bmp);
+
+        rs.destroy();
+        return bmp;
+    }
+
+    private static Bitmap stackBlur(Bitmap bmp, int radius) {
+        int w = bmp.getWidth();
+        int h = bmp.getHeight();
+        int[] src = new int[w * h];
+        bmp.getPixels(src, 0, w, 0, 0, w, h);
+
         int x, y, xp, yp, i;
         int sp;
         int stack_start;
@@ -265,5 +304,7 @@ public class StackBlur {
                 sum_in_b  -= (stack[stack_i] & 0xff);
             }
         }
+
+        return Bitmap.createBitmap(src, w, h, Bitmap.Config.ARGB_8888);
     }
 }
