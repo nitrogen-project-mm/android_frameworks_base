@@ -340,6 +340,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     boolean mExpandedVisible;
 
+    private int mDt2lTargetVibrateConfig;
+
     private int mNavigationBarWindowState = WINDOW_STATE_SHOWING;
 
     // the tracker view
@@ -443,6 +445,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LOCKSCREEN_BLUR_RADIUS),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.DT2L_TARGET_VIBRATE_CONFIG),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -474,6 +479,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             ContentResolver resolver = mContext.getContentResolver();
             mBlurRadius = Settings.System.getInt(resolver,
                     Settings.System.LOCKSCREEN_BLUR_RADIUS, 14);
+
+            mDt2lTargetVibrateConfig = Settings.System.getIntForUser(resolver,
+                    Settings.System.DT2L_TARGET_VIBRATE_CONFIG, 1, mCurrentUserId);
          }
     }
 
@@ -4118,8 +4126,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     }
 
     private void vibrateForCameraGesture() {
-        // Make sure to pass -1 for repeat so VibratorService doesn't stop us when going to sleep.
-        mVibrator.vibrate(new long[] { 0, 250L }, -1 /* repeat */);
+        mVibrator.vibrate(new long[] { 0, mDt2lTargetVibrateConfig }, -1 /* repeat */);
     }
 
     public void onScreenTurnedOn() {
