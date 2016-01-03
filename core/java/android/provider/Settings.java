@@ -3719,6 +3719,13 @@ public final class Settings {
         public static final String STATUS_BAR_DATE = "status_bar_date";
 
         /**
+         * Change fonts for the system lockscreen clock widget
+         *
+         * @hide
+         */
+        public static final String LOCK_CLOCK_FONTS = "lock_clock_fonts";
+
+        /**
          * Sets the date string style
          * 0 - Regular style
          * 1 - Lowercase
