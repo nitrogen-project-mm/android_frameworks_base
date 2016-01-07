@@ -30,6 +30,7 @@ import android.app.StatusBarManager;
 import android.app.WallpaperManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentCallbacks2;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -108,6 +109,7 @@ import com.android.internal.util.nitrogen.Blur;
 import com.android.internal.util.nitrogen.WeatherControllerImpl;
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.statusbar.NotificationVisibility;
+import com.android.internal.statusbar.IStatusBarService;
 import com.android.internal.statusbar.StatusBarIcon;
 import com.android.keyguard.KeyguardHostView.OnDismissAction;
 import com.android.keyguard.KeyguardUpdateMonitor;
@@ -1241,6 +1243,21 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     };
 
+    private final View.OnClickListener mNotificationsClickListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            expandShade();
+        }
+    };
+
+    private final View.OnLongClickListener mNotificationsLongListener =
+            new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            expandShadeSettings();
+            return true;
+        }
+    };
+
     private void awakenDreams() {
         if (mDreamManager != null) {
             try {
@@ -1251,11 +1268,32 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     }
 
+    private void expandShade() {
+            try {
+                IStatusBarService.Stub.asInterface(
+                        ServiceManager.getService(mContext.STATUS_BAR_SERVICE)).expandNotificationsPanel();
+            } catch (RemoteException e) {
+                // A RemoteException is like a cold
+                // Let's hope we don't catch one!
+            }
+    }
+
+    private void expandShadeSettings() {
+            try {
+                IStatusBarService.Stub.asInterface(
+                        ServiceManager.getService(mContext.STATUS_BAR_SERVICE)).expandSettingsPanel();
+            } catch (RemoteException e) {
+                // A RemoteException is like a cold
+                // Let's hope we don't catch one!
+            }
+    }
+
     private void prepareNavigationBarView() {
         mNavigationBarView.reorient();
 
         mNavigationBarView.setListeners(mRecentsClickListener, mRecentsPreloadOnTouchListener,
-                mLongPressBackRecentsListener, mHomeActionListener, mLongPressHomeListener);
+                mLongPressBackRecentsListener, mHomeActionListener, mLongPressHomeListener,
+                mNotificationsClickListener, mNotificationsLongListener);
         mAssistManager.onConfigurationChanged();
     }
 

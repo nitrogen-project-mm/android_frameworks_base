@@ -152,4 +152,6 @@
 
     <!-- QuickSettings: Volume [CHAR LIMIT=NONE] -->
     <string name="quick_settings_volume_panel_label">Панель громкости</string>
+
+    <string name="navbar_notifications_button">Уведомления</string>
 </resources>
