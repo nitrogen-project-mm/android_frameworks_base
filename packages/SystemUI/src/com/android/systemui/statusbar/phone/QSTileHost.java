@@ -41,6 +41,7 @@ import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.IntentTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.LockscreenToggleTile;
+import com.android.systemui.qs.tiles.LteTile;
 import com.android.systemui.qs.tiles.RebootTile;
 import com.android.systemui.qs.tiles.RotationLockTile;
 import com.android.systemui.qs.tiles.ScreenOffTile;
@@ -63,6 +64,8 @@ import com.android.systemui.statusbar.policy.UserSwitcherController;
 import com.android.systemui.statusbar.policy.ZenModeController;
 import com.android.systemui.tuner.TunerService;
 import com.android.systemui.tuner.TunerService.Tunable;
+import android.telephony.TelephonyManager;
+import com.android.internal.telephony.PhoneConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -282,6 +285,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("usb_tether")) return new UsbTetherTile(this);
         else if (tileSpec.equals("expanded_desktop")) return new ExpandedDesktopTile(this);
         else if (tileSpec.equals("lockscreen")) return  new LockscreenToggleTile(this);
+        else if (tileSpec.equals("lte")) return  new LteTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
     }

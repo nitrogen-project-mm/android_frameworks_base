@@ -274,6 +274,7 @@ public interface MetricsConstants {
     public static final int QS_TETHER = 247;
     public static final int QS_EXPANDED = 248;
     public static final int QS_LOCKSCREEN = 249;
+    public static final int QS_LTE = 250;
     // Lock screen weather settings
     public static final int LOCKSCREEN_WEATHER_SETTINGS = 251;
     // Nitrogen

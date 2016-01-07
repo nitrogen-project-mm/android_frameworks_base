@@ -183,4 +183,9 @@
     <string name="accessibility_quick_settings_lock_screen_changed_on">Lock screen turned on.</string>
 
     <string name="header_pack_label">Default</string>
+
+    <!-- LTE QS Tile -->
+    <string name="qs_lte_label">LTE</string>
+    <string name="lte_on">LTE ON </string>
+    <string name="lte_off">LTE OFF</string>
 </resources>

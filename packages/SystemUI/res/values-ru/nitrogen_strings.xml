@@ -120,4 +120,9 @@
     <string name="quick_settings_lockscreen_label_enforced">Экран блокировки принудительно</string>
 
     <string name="header_pack_label">По умолчанию</string>
+
+    <!-- LTE QS Tile -->
+    <string name="qs_lte_label">LTE</string>
+    <string name="lte_on">LTE ВКЛ</string>
+    <string name="lte_off">LTE ВЫКЛ.</string>
 </resources>
