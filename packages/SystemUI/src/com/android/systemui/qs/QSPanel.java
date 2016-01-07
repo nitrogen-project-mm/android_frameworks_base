@@ -81,7 +81,8 @@ public class QSPanel extends ViewGroup {
     private boolean mListening;
     private boolean mClosingDetail;
 
-    private boolean mBrightnessSliderEnabled;
+    private boolean BrightnessSliderEnabled;
+    private boolean BrightnessIconEnabled;
     private boolean mVibrationEnabled;
 
     private Record mDetailRecord;
@@ -143,19 +144,24 @@ public class QSPanel extends ViewGroup {
      * Enable/disable brightness slider.
      */
     private boolean showBrightnessSlider() {
+
         ToggleSlider brightnessSlider = (ToggleSlider) findViewById(R.id.brightness_slider);
         ImageView brightnessIcon = (ImageView) findViewById(R.id.brightness_icon);
-        if (brightnessSliderEnabled) {
+        if (BrightnessSliderEnabled) {
             mBrightnessView.setVisibility(VISIBLE);
             brightnessSlider.setVisibility(VISIBLE);
-            brightnessIcon.setVisibility(View.VISIBLE);
+            if (BrightnessIconEnabled) {
+                brightnessIcon.setVisibility(VISIBLE);
+            } else {
+                brightnessIcon.setVisibility(GONE);
+            }
         } else {
             mBrightnessView.setVisibility(GONE);
             brightnessSlider.setVisibility(GONE);
-            brightnessIcon.setVisibility(View.GONE);
+            brightnessIcon.setVisibility(GONE);
         }
         updateResources();
-        return mBrightnessSliderEnabled;
+        return BrightnessSliderEnabled;
     }
 
     public void vibrateTile(int duration) {
@@ -773,6 +779,9 @@ public class QSPanel extends ViewGroup {
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.QS_SHOW_BRIGHTNESS_SLIDER),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.BRIGHTNESS_ICON),
+                    false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.QUICK_SETTINGS_TILES_VIBRATE),
                     false, this, UserHandle.USER_ALL);
@@ -800,9 +809,12 @@ public class QSPanel extends ViewGroup {
 
         public void update() {
             ContentResolver resolver = mContext.getContentResolver();
-            mBrightnessSliderEnabled = Settings.Secure.getIntForUser(
+            BrightnessSliderEnabled = Settings.Secure.getIntForUser(
             mContext.getContentResolver(), Settings.Secure.QS_SHOW_BRIGHTNESS_SLIDER,
                 1, UserHandle.USER_CURRENT) == 1;
+            BrightnessIconEnabled = Settings.System.getIntForUser(
+            mContext.getContentResolver(), Settings.System.BRIGHTNESS_ICON,
+                0, UserHandle.USER_CURRENT) == 1;
             mVibrationEnabled = Settings.Secure.getIntForUser(
             mContext.getContentResolver(), Settings.Secure.QUICK_SETTINGS_TILES_VIBRATE,
                 0, UserHandle.USER_CURRENT) == 1;
@@ -812,3 +824,4 @@ public class QSPanel extends ViewGroup {
         }
     }
 }
+
