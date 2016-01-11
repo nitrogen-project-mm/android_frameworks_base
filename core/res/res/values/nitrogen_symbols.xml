@@ -67,4 +67,7 @@
   <java-symbol type="drawable" name="ic_lock_user" />
   <java-symbol type="drawable" name="ic_lock_assist" />
   <java-symbol type="drawable" name="ic_lock_voice" />
+
+  <!-- Automatic brightness enhancements -->
+  <java-symbol type="integer" name="config_autoBrightnessBrighteningLightFastDebounce"/>
 </resources>
