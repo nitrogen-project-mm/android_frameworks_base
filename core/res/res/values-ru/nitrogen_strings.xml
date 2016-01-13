@@ -56,4 +56,7 @@
     <string name="permdesc_readPhoneBlacklist">Приложение сможет считывать информацию о списке абонентов, от которых заблокированы входящие звонки или сообщения.</string>
     <string name="permlab_changePhoneBlacklist">Изменение чёрного списка</string>
     <string name="permdesc_changePhoneBlacklist">Приложение сможет изменять список абонентов, от которых заблокированы входящие звонки или сообщения.</string>
+
+    <!-- WiFi turn off notification action text -->
+    <string name="notify_turn_wifi_off_title">Выключить Wi-Fi</string>
 </resources>

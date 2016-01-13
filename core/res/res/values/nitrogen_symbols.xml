@@ -70,4 +70,7 @@
 
   <!-- Automatic brightness enhancements -->
   <java-symbol type="integer" name="config_autoBrightnessBrighteningLightFastDebounce"/>
+
+  <!-- WiFi turn off notification -->
+  <java-symbol type="string" name="notify_turn_wifi_off_title" />
 </resources>
