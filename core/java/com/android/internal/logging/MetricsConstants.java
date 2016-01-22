@@ -291,12 +291,12 @@ public interface MetricsConstants {
     public static final int VOLUME_SETTINGS = 262;
     public static final int TRAFFIC_SETTINGS = 263;
     public static final int MISC_SETTINGS = 264;
-    public static final int POWER_SETTINGS = 264;
-    public static final int CARRIER_OPTIONS = 265;
-    public static final int CIRCLE_APP = 266;
-    public static final int HEADSUP_SETTINGS = 267;
-    public static final int BUTTON_SETTINGS = 268;
-    public static final int VOLUMESTEP_SETTINGS = 269;
+    public static final int POWER_SETTINGS = 265;
+    public static final int CARRIER_OPTIONS = 266;
+    public static final int CIRCLE_APP = 267;
+    public static final int HEADSUP_SETTINGS = 268;
+    public static final int BUTTON_SETTINGS = 269;
+    public static final int VOLUMESTEP_SETTINGS = 270;
 
     // These constants must match those in the analytic pipeline, do not edit.
     // Add temporary values to the top of MetricsLogger instead.
