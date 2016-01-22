@@ -126,6 +126,17 @@
     <string name="lte_on">LTE ВКЛ</string>
     <string name="lte_off">LTE ВЫКЛ.</string>
 
+    <!-- Battery saver QS Tile -->
+    <string name="quick_settings_battery_saver_label">Энергосбережение</string> 
+    <!-- Content description of the battery saver tile in quick settings when off (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_quick_settings_battery_saver_off">Энергосбережение выкл.</string>
+    <!-- Content description of the battery saver tile in quick settings when on (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_quick_settings_battery_saver_on">Энергосбережение вкл.</string>
+    <!-- Announcement made when battery saver changes to off (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_quick_settings_battery_saver_changed_off">Энергосбережение выключено.</string>
+    <!-- Announcement made when battery saver changes to on (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_quick_settings_battery_saver_changed_on">Энергосбережение включено.</string>
+
     <!-- Dialog title for navigation bar button selection -->
     <string name="navbar_power_button">Кнопка питания</string>
 </resources>

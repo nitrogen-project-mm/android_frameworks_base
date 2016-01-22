@@ -212,6 +212,7 @@ public class QsTuner extends Fragment implements Callback {
         else if (spec.equals("expanded_desktop")) return R.string.quick_settings_expanded_desktop;
         else if (spec.equals("lockscreen")) return R.string.quick_settings_lockscreen_label;
         else if (spec.equals("lte")) return R.string.qs_lte_label;
+        else if (spec.equals("battery_saver")) return R.string.quick_settings_battery_saver_label;
         return 0;
     }
 
@@ -463,6 +464,7 @@ public class QsTuner extends Fragment implements Callback {
             else if (mSpec.equals("expanded_desktop")) return R.drawable.ic_qs_expanded_desktop;
             else if (mSpec.equals("lockscreen")) return R.drawable.ic_qs_lock_screen_on;
             else if (mSpec.equals("lte")) return R.drawable.ic_qs_lte_on;
+            else if (mSpec.equals("battery_saver")) return R.drawable.ic_qs_battery_saver_on;
             return R.drawable.android;
         }
 

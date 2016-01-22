@@ -297,6 +297,7 @@ public interface MetricsConstants {
     public static final int HEADSUP_SETTINGS = 268;
     public static final int BUTTON_SETTINGS = 269;
     public static final int VOLUMESTEP_SETTINGS = 270;
+    public static final int QS_BATTERY_SAVER = 271;
 
     // These constants must match those in the analytic pipeline, do not edit.
     // Add temporary values to the top of MetricsLogger instead.
