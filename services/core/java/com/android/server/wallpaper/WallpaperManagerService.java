@@ -651,10 +651,10 @@ public class WallpaperManagerService extends IWallpaperManager.Stub {
         synchronized (mLock) {
             mCurrentUserId = userId;
             WallpaperData wallpaper = getWallpaperSafeLocked(userId);
-            KeyguardWallpaperData keygaurdWallpaper = getKeyguardWallpaperSafeLocked(userId);
+            KeyguardWallpaperData keyguardWallpaper = getKeyguardWallpaperSafeLocked(userId);
             // Not started watching yet, in case wallpaper data was loaded for other reasons.
             if (wallpaper.wallpaperObserver == null) {
-                wallpaper.wallpaperObserver = new WallpaperObserver(wallpaper, keygaurdWallpaper);
+                wallpaper.wallpaperObserver = new WallpaperObserver(wallpaper, keyguardWallpaper);
                 wallpaper.wallpaperObserver.startWatching();
             }
             switchWallpaper(wallpaper, reply);
@@ -1024,8 +1024,17 @@ public class WallpaperManagerService extends IWallpaperManager.Stub {
         return null;
     }
 
+    public void setWallpaperComponentChecked(ComponentName name, String callingPackage) {
+        if (isWallpaperSupported(callingPackage)) {
+            setWallpaperComponent(name);
+        }
+    }
+
     public ParcelFileDescriptor setKeyguardWallpaper(String name, String callingPackage) {
         checkPermission(android.Manifest.permission.SET_KEYGUARD_WALLPAPER);
+        if (!isWallpaperSupported(callingPackage)) {
+            return null;
+        }
         synchronized (mLock) {
             if (DEBUG) Slog.v(TAG, "setKeyguardWallpaper");
             int userId = UserHandle.getCallingUserId();
@@ -1048,7 +1057,7 @@ public class WallpaperManagerService extends IWallpaperManager.Stub {
     }
 
     public ParcelFileDescriptor updateKeyguardWallpaperBitmapLocked(String name,
-            KeyguardWallpaperData wallpaper) {
+                                                             KeyguardWallpaperData wallpaper) {
         if (name == null) name = "";
         try {
             File dir = getWallpaperDir(wallpaper.userId);
@@ -1071,12 +1080,6 @@ public class WallpaperManagerService extends IWallpaperManager.Stub {
             Slog.w(TAG, "Error setting wallpaper", e);
         }
         return null;
-    }
-
-    public void setWallpaperComponentChecked(ComponentName name, String callingPackage) {
-        if (isWallpaperSupported(callingPackage)) {
-            setWallpaperComponent(name);
-        }
     }
 
     // ToDo: Remove this version of the function
@@ -1460,21 +1463,15 @@ public class WallpaperManagerService extends IWallpaperManager.Stub {
         return wallpaper;
     }
 
-    /**
-     * Sometimes it is expected the keyguardwallpaper map may not have a user's data.  E.g. This could
-     * happen during user switch.  The async user switch observer may not have received
-     * the event yet.  We use this safe method when we don't care about this ordering and just
-     * want to update the data.  The data is going to be applied when the user switch observer
-     * is eventually executed.
-     */
     private KeyguardWallpaperData getKeyguardWallpaperSafeLocked(int userId) {
-        KeyguardWallpaperData keygaurdWallpaper = mKeyguardWallpaperMap.get(userId);
-        if (keygaurdWallpaper == null) {
-            loadSettingsLocked(userId);
-            keygaurdWallpaper = mKeyguardWallpaperMap.get(userId);
+        KeyguardWallpaperData wallpaper = mKeyguardWallpaperMap.get(userId);
+        if (wallpaper == null) {
+            loadKeyguardSettingsLocked(userId);
+            wallpaper = mKeyguardWallpaperMap.get(userId);
         }
-        return keygaurdWallpaper;
+        return wallpaper;
     }
+
 
     private void loadSettingsLocked(int userId) {
         if (DEBUG) Slog.v(TAG, "loadSettingsLocked");
