@@ -38,8 +38,6 @@ public class TunerFragment extends PreferenceFragment {
 
     private static final String TAG = "TunerFragment";
 
-    private static final String KEY_QS_TUNER = "qs_tuner";
-
     public static final String SETTING_SEEN_TUNER_WARNING = "seen_tuner_warning";
 
     private static final int MENU_REMOVE = Menu.FIRST + 1;
@@ -51,29 +49,6 @@ public class TunerFragment extends PreferenceFragment {
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
         setHasOptionsMenu(true);
 
-        findPreference(KEY_QS_TUNER).setOnPreferenceClickListener(new OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(android.R.id.content, new QsTuner(), "QsTuner");
-                ft.addToBackStack(null);
-                ft.commit();
-                return true;
-            }
-        });
-        if (Settings.Secure.getInt(getContext().getContentResolver(), SETTING_SEEN_TUNER_WARNING,
-                0) == 0) {
-            new AlertDialog.Builder(getContext())
-                    .setTitle(R.string.tuner_warning_title)
-                    .setMessage(R.string.tuner_warning)
-                    .setPositiveButton(R.string.got_it, new OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Settings.Secure.putInt(getContext().getContentResolver(),
-                                    SETTING_SEEN_TUNER_WARNING, 1);
-                        }
-                    }).show();
-        }
     }
 
     @Override
