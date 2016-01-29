@@ -3755,6 +3755,12 @@ public final class Settings {
         public static final String LOCK_CLOCK_FONTS = "lock_clock_fonts";
 
         /**
+         * Enable or disable the Quick Settings Edit Icon
+         * @hide
+         */
+        public static final String ENABLE_QS_EDIT_BUTTON = "quick_settings_edit_icon";
+
+        /**
          * Sets the date string style
          * 0 - Regular style
          * 1 - Lowercase
