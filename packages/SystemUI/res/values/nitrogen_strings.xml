@@ -224,4 +224,17 @@
     <string name="accessibility_quick_settings_volume_panel">Volume panel.</string>
 
     <string name="navbar_notifications_button">Notifications button</string>
+
+    <!-- Dialog title for navigation bar button selection -->
+    <string name="navbar_torch">Torch</string>
+    <string name="navbar_camera">Camera</string>
+    <string name="navbar_screenshot">ScreenShot</string>
+    <string name="navbar_expand">Immersive Mode</string>
+
+    <!-- Content description of the navbar buttons for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_torch">Torch</string>
+    <string name="accessibility_camera">Camera</string>
+    <string name="accessibility_screenshot">ScreenShot</string>
+    <string name="accessibility_expand">Immersive Mode</string>
+    <string name="accessibility_notifications">Notifications button</string>
 </resources>

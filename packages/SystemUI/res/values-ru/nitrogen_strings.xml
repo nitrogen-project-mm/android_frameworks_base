@@ -154,4 +154,10 @@
     <string name="quick_settings_volume_panel_label">Панель громкости</string>
 
     <string name="navbar_notifications_button">Уведомления</string>
+
+    <!-- Dialog title for navigation bar button selection -->
+    <string name="navbar_torch">Фонарик</string>
+    <string name="navbar_camera">Камера</string>
+    <string name="navbar_screenshot">Снимок экрана</string>
+    <string name="navbar_expand">Расширенный экран</string>
 </resources>
