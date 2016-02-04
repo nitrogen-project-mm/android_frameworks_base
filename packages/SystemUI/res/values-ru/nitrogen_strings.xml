@@ -142,4 +142,8 @@
 
     <!-- QuickSettings: Sound [CHAR LIMIT=NONE] -->
     <string name="quick_settings_sound_label">Звук</string>
+
+    <!-- Notification which notifies user flashlight is enabled -->
+    <string name="quick_settings_tile_flashlight_not_title">Фонарик включен</string>
+    <string name="quick_settings_tile_flashlight_not_summary">Нажмите для выключения</string>
 </resources>
