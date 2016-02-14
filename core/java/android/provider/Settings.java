@@ -6703,10 +6703,11 @@ public final class Settings {
         public static final String QUICK_SETTINGS_TILES_VIBRATE = "quick_settings_vibrate";
 
         /**
-         * Whether to show four tiles per row.
+         * Number of columns to display on the quick settings panel
+         * Default is 3
          * @hide
          */
-        public static final String QS_USE_FOUR_COLUMNS = "qs_use_four_columns";
+        public static final String QS_NUM_TILE_COLUMNS = "sysui_qs_num_tile_columns";
 
         /**
          * Use "main" tiles on the first row of the quick settings panel
