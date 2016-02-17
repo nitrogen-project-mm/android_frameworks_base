@@ -149,4 +149,7 @@
     <!-- Notification which notifies user flashlight is enabled -->
     <string name="quick_settings_tile_flashlight_not_title">Фонарик включен</string>
     <string name="quick_settings_tile_flashlight_not_summary">Нажмите для выключения</string>
+
+    <!-- QuickSettings: Volume [CHAR LIMIT=NONE] -->
+    <string name="quick_settings_volume_panel_label">Панель громкости</string>
 </resources>

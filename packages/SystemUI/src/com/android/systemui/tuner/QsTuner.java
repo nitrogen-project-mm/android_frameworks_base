@@ -216,6 +216,7 @@ public class QsTuner extends Fragment implements Callback {
         else if (spec.equals("lte")) return R.string.qs_lte_label;
         else if (spec.equals("battery_saver")) return R.string.quick_settings_battery_saver_label;
         else if (spec.equals("sound")) return R.string.quick_settings_sound_label;
+        else if (spec.equals("volume")) return R.string.quick_settings_volume_panel_label;
         return 0;
     }
 
@@ -469,6 +470,7 @@ public class QsTuner extends Fragment implements Callback {
             else if (mSpec.equals("lte")) return R.drawable.ic_qs_lte_on;
             else if (mSpec.equals("battery_saver")) return R.drawable.ic_qs_battery_saver_on;
             else if (mSpec.equals("sound")) return R.drawable.ic_qs_ringer_audible;
+            else if (mSpec.equals("volume")) return R.drawable.ic_qs_volume_panel;
             return R.drawable.android;
         }
 
