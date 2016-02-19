@@ -30,6 +30,7 @@ import android.database.ContentObserver;
 import android.graphics.Outline;
 import android.graphics.Rect;
 import android.graphics.drawable.Animatable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.AlarmClock;
@@ -1076,6 +1077,19 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         } else {
             mBackgroundImage.setImageDrawable(dw);
         }
+        applyHeaderBackgroundShadow();
+    }
+
+    private void applyHeaderBackgroundShadow() {
+        final int headerShadow = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_CUSTOM_HEADER_SHADOW, 0,
+                UserHandle.USER_CURRENT);
+
+        if (headerShadow != 0 && mBackgroundImage != null) {
+            ColorDrawable shadow = new ColorDrawable(Color.BLACK);
+            shadow.setAlpha(headerShadow);
+            mBackgroundImage.setForeground(shadow);
+        }
     }
 
     @Override
@@ -1143,6 +1157,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         } else {
             mSomcQuickSettings.setVisibility(View.GONE);
         }
+
+        applyHeaderBackgroundShadow();
     }
 
     private KeyguardMonitor.Callback mKeyguardCallback = new KeyguardMonitor.Callback() {
