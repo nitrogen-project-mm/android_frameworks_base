@@ -122,6 +122,11 @@
         wifi,bt,inversion,dnd,cell,airplane,rotation,flashlight,location,cast,hotspot,brightness,screenOff,screenshot,sync,nfc,timeout,compass,reboot,usb_tether,expanded_desktop,lockscreen,lte,battery_saver,sound,volume
     </string>
 
+    <!-- The default tiles to reset to in QuickSettings -->
+    <string name="quick_settings_tiles_reset" translatable="false">
+        wifi,bt,dnd,cell,airplane,rotation,flashlight,location,cast,themes
+    </string>
+
     <!-- The tiles to display in QuickSettings -->
     <string name="quick_settings_tiles" translatable="false">wifi,bt,dnd,cell,airplane,rotation,flashlight,location,cast</string>
 
