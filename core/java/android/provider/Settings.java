@@ -4124,11 +4124,17 @@ public final class Settings {
                 "mute_annoying_notifications_threshold";
 
         /**
+         * Whether to use the MTP by default after connecting to PC
+         * @hide
+         */
+        public static final String MTP_DIRTY_HACK = "mtp_dirty_hack";
+
+        /**
          * Whether to use the proximity sensor to turn the screen on/off during a call
          * @hide
          */
-
         public static final String IN_CALL_PROXIMITY_SENSOR = "in_call_proximity_sensor";
+
         /**
          * Whether the phone ringtone should be played in an increasing manner
          * @hide
