@@ -222,4 +222,6 @@
     <!-- Default for Settings.System.STATUS_BAR_NOTIF_COUNT. -->
     <integer name="def_notif_count">0</integer>
 
+    <!-- Default for Settings.System.NAVIGATION_BAR_SHOW. -->
+    <integer name="def_navigation_bar_show">0</integer>
 </resources>
