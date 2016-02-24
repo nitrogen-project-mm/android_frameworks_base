@@ -224,4 +224,8 @@
 
     <!-- Default for Settings.System.NAVIGATION_BAR_SHOW. -->
     <integer name="def_navigation_bar_show">0</integer>
+
+    <!-- Default for Settings.Global.MOBILE_DATA -->
+    <bool name="def_mobile_data_enabled">false</bool>
+
 </resources>
