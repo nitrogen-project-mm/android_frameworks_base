@@ -3393,12 +3393,6 @@ public final class Settings {
         public static final String DOCK_SOUNDS_ENABLED = Global.DOCK_SOUNDS_ENABLED;
 
         /**
-         * Check the proximity sensor during wakeup
-         * @hide
-         */
-        public static final String PROXIMITY_ON_WAKE = "proximity_on_wake";
-
-        /**
          * Whether to play sounds when the keyguard is shown and dismissed.
          * @hide
          */
@@ -4128,12 +4122,6 @@ public final class Settings {
          * @hide
          */
         public static final String MTP_DIRTY_HACK = "mtp_dirty_hack";
-
-        /**
-         * Whether to use the proximity sensor to turn the screen on/off during a call
-         * @hide
-         */
-        public static final String IN_CALL_PROXIMITY_SENSOR = "in_call_proximity_sensor";
 
         /**
          * Whether the phone ringtone should be played in an increasing manner
