@@ -160,4 +160,8 @@
     <string name="navbar_camera">Камера</string>
     <string name="navbar_screenshot">Снимок экрана</string>
     <string name="navbar_expand">Расширенный экран</string>
+
+    <!-- Dialog title for navigation bar button selection -->
+    <string name="navbar_app_picker">Выбор приложения</string>
+
 </resources>

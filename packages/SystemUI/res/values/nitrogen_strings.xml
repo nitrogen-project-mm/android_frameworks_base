@@ -237,4 +237,11 @@
     <string name="accessibility_screenshot">ScreenShot</string>
     <string name="accessibility_expand">Immersive Mode</string>
     <string name="accessibility_notifications">Notifications button</string>
+
+    <!-- Dialog title for navigation bar button selection -->
+    <string name="navbar_app_picker">Application picker</string>
+
+    <!-- Content description of the Application picker button for accessibility
+    (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_app_picker">Application picker</string>
 </resources>
