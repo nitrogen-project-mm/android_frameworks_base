@@ -124,7 +124,7 @@
 
     <!-- The default tiles to reset to in QuickSettings -->
     <string name="quick_settings_tiles_reset" translatable="false">
-        wifi,bt,dnd,cell,airplane,rotation,flashlight,location,cast,themes
+        wifi,bt,dnd,cell,airplane,rotation,flashlight,location,cast
     </string>
 
     <!-- The tiles to display in QuickSettings -->
