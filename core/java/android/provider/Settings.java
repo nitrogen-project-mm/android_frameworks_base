@@ -3642,11 +3642,6 @@ public final class Settings {
         public static final String IMMERSIVE_RECENTS = "immersive_recents";
 
         /**
-         * @hide
-         */
-        public static final String SHOW_HEADSET_ICON = "show_headset_icon";
-
-        /**
          * Which applications to enable heads up notifications for
          *
          * @hide
