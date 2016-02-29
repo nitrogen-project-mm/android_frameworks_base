@@ -164,4 +164,12 @@
     <!-- Dialog title for navigation bar button selection -->
     <string name="navbar_app_picker">Выбор приложения</string>
 
+    <!-- headset icon switch -->
+    <string name="status_bar_headset">Наушники</string>
+
+    <!-- vpn icon switch -->
+    <string name="status_bar_vpn">VPN</string>
+
+    <!-- vibro icon switch -->
+    <string name="status_bar_volume">Без звука/Вибрация</string>
 </resources>

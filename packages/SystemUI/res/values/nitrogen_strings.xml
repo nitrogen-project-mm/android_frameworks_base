@@ -244,4 +244,13 @@
     <!-- Content description of the Application picker button for accessibility
     (not shown on the screen). [CHAR LIMIT=NONE] -->
     <string name="accessibility_app_picker">Application picker</string>
+
+    <!-- headset icon switch -->
+    <string name="status_bar_headset">Wired headset</string>
+
+    <!-- vpn icon switch -->
+    <string name="status_bar_vpn">VPN</string>
+
+    <!-- vibro icon switch -->
+    <string name="status_bar_volume">Silent/Vibrate</string>
 </resources>
