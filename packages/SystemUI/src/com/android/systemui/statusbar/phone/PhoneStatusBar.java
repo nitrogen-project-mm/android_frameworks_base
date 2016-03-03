@@ -521,6 +521,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
             mDt2lTargetVibrateConfig = Settings.System.getIntForUser(resolver,
                     Settings.System.DT2L_TARGET_VIBRATE_CONFIG, 1, mCurrentUserId);
+
+            if (mNavigationBarView != null) {
+                boolean navLeftInLandscape = Settings.System.getInt(resolver,
+                        Settings.System.NAVBAR_LEFT_IN_LANDSCAPE, 0) == 1;
+                mNavigationBarView.setLeftInLandscape(navLeftInLandscape);
+            }
          }
     }
 
