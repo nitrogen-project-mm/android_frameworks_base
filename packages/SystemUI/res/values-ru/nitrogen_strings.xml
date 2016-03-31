@@ -172,4 +172,7 @@
 
     <!-- vibro icon switch -->
     <string name="status_bar_volume">Без звука/Вибрация</string>
+
+    <!-- Caffeine Tile -->
+    <string name="quick_settings_caffeine_label">Кофеин</string>
 </resources>
