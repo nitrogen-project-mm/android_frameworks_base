@@ -3649,6 +3649,12 @@ public final class Settings {
         public static final String HEADS_UP_WHITELIST_VALUES = "heads_up_whitelist_values";
 
         /**
+         * Heads up timeout configuration
+         * @hide
+         */
+        public static final String HEADS_UP_TIMEOUT = "heads_up_timeout";
+
+        /**
          * I am the lolrus.
          * <p>
          * Nonzero values indicate that the user has a bukkit.
