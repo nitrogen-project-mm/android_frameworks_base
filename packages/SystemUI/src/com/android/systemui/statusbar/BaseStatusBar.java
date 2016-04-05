@@ -2158,13 +2158,9 @@ public abstract class BaseStatusBar extends SystemUI implements
             return false;
         }
 
-        // check if package is whitelisted first
-        if (isPackageWhitelisted(sbn.getPackageName())) {
-            return true;
-        }
-
         Notification notification = sbn.getNotification();
         // some predicates to make the boolean logic legible
+        boolean whiteListed = isPackageWhitelisted(sbn.getPackageName());
         boolean isNoisy = (notification.defaults & Notification.DEFAULT_SOUND) != 0
                 || (notification.defaults & Notification.DEFAULT_VIBRATE) != 0
                 || notification.sound != null
@@ -2178,7 +2174,7 @@ public abstract class BaseStatusBar extends SystemUI implements
                 && mAccessibilityManager.isTouchExplorationEnabled();
         boolean justLaunchedFullScreenIntent = entry.hasJustLaunchedFullScreenIntent();
 
-        boolean interrupt = (isFullscreen || (isHighPriority && (isNoisy || hasTicker)))
+        boolean interrupt = (whiteListed || isFullscreen || (isHighPriority && (isNoisy || hasTicker)))
                 && isAllowed
                 && !accessibilityForcesLaunch
                 && !justLaunchedFullScreenIntent
