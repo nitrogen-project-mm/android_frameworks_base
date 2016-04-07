@@ -573,7 +573,14 @@ final class DefaultPermissionGrantPolicy {
                 grantRuntimePermissionsLPw(musicPackage, STORAGE_PERMISSIONS, userId);
             }
 
-	     // Chromium Regular
+            // LockClock
+            PackageParser.Package lockClock = getDefaultProviderAuthorityPackageLPr(
+                    "com.cyanogenmod.lockclock", userId);
+            if (lockClock != null) {
+            grantRuntimePermissionsLPw(lockClock, LOCATION_PERMISSIONS, userId);
+            }
+
+            // Chromium Regular
             PackageParser.Package chromiumRPackage = getDefaultProviderAuthorityPackageLPr(
                     "org.chromium.chrome", userId);
             if (chromiumRPackage != null) {
