@@ -462,6 +462,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     boolean mUseTvRouting;
 
     int mBackKillTimeout;
+    int mCustomBackKillTimeout;
     boolean mVolumeRockerWake;
     int mDeviceHardwareKeys;
 
@@ -884,6 +885,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVBAR_LEFT_IN_LANDSCAPE), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.KILL_APP_LONGPRESS_TIMEOUT), false, this,
                     UserHandle.USER_ALL);
             updateSettings();
         }
@@ -2149,6 +2153,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
             mVolumeMusicControls = Settings.System.getIntForUser(resolver,
                     Settings.System.VOLUME_MUSIC_CONTROLS, 1, UserHandle.USER_CURRENT) != 0;
+
+            mCustomBackKillTimeout = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                    Settings.Secure.KILL_APP_LONGPRESS_TIMEOUT, mBackKillTimeout, UserHandle.USER_CURRENT);
 
             // Navbr on/off and custom dimensions
             setHasNavigationBar();
@@ -3434,7 +3441,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             if (Settings.Secure.getIntForUser(mContext.getContentResolver(),
                     Settings.Secure.KILL_APP_LONGPRESS_BACK, 0, UserHandle.USER_CURRENT) == 1) {
                 if (down && repeatCount == 0) {
-                    mHandler.postDelayed(mBackLongPress, mBackKillTimeout);
+                    mHandler.postDelayed(mBackLongPress, mCustomBackKillTimeout);
                 }
             }
         } else if (keyCode == KeyEvent.KEYCODE_BRIGHTNESS_UP
