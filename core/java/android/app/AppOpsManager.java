@@ -240,7 +240,9 @@ public class AppOpsManager {
     /** @hide */
     public static final int OP_ALARM_WAKEUP = 63;
     /** @hide */
-    public static final int _NUM_OP = 64;
+    public static final int OP_BOOT_COMPLETED = 64;
+    /** @hide */
+    public static final int _NUM_OP = 65;
 
     /** Access to coarse location information. */
     public static final String OPSTR_COARSE_LOCATION = "android:coarse_location";
@@ -340,6 +342,8 @@ public class AppOpsManager {
             = "android:get_accounts";
     public static final String OPSTR_ALARM_WAKEUP
             = "android:alarm_wakeup";
+    private static final String OPSTR_BOOT_COMPLETED =
+            "android:boot_completed";
 
     /**
      * This maps each operation to the operation that serves as the
@@ -414,6 +418,7 @@ public class AppOpsManager {
             OP_TURN_SCREEN_ON,
             OP_GET_ACCOUNTS,
             OP_ALARM_WAKEUP,
+            OP_BOOT_COMPLETED,
     };
 
     /**
@@ -484,7 +489,8 @@ public class AppOpsManager {
             OPSTR_WRITE_EXTERNAL_STORAGE,
             null,
             OPSTR_GET_ACCOUNTS,
-            null
+            null,
+            OPSTR_BOOT_COMPLETED,
     };
 
     /**
@@ -556,6 +562,7 @@ public class AppOpsManager {
             "TURN_ON_SCREEN",
             "GET_ACCOUNTS",
             "ALARM_WAKEUP",
+            "BOOT_COMPLETED",
     };
 
     /**
@@ -626,7 +633,8 @@ public class AppOpsManager {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             null, // no permission for turning the screen on
             Manifest.permission.GET_ACCOUNTS,
-            null // OP_ALARM_WAKEUP
+            null, // OP_ALARM_WAKEUP,
+            Manifest.permission.RECEIVE_BOOT_COMPLETED,
     };
 
     /**
@@ -699,6 +707,7 @@ public class AppOpsManager {
             null, // TURN_ON_SCREEN
             null, // GET_ACCOUNTS
             null, // OP_ALARM_WAKEUP
+            null, //BOOT_COMPLETED
     };
 
     /**
@@ -770,6 +779,7 @@ public class AppOpsManager {
             false, // TURN_ON_SCREEN
             false, // GET_ACCOUNTS
             true, //ALARM_WAKEUP
+            true, // BOOT_COMPLETED
     };
 
     /**
@@ -840,6 +850,7 @@ public class AppOpsManager {
             AppOpsManager.MODE_ALLOWED,  // OP_TURN_ON_SCREEN
             AppOpsManager.MODE_ALLOWED,
             AppOpsManager.MODE_ALLOWED, // OP_ALARM_WAKEUP
+            AppOpsManager.MODE_ALLOWED, // OP_BOOT_COMPLETED
     };
 
     /**
@@ -913,7 +924,8 @@ public class AppOpsManager {
             false,
             false,
             false,
-            false
+            false,
+            false,
     };
 
     /**
