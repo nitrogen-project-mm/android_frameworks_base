@@ -264,4 +264,10 @@
 
     <!-- Heads up snooze toast -->
     <string name="heads_up_snooze_message">Heads up is snoozing for <xliff:g id="number">%d</xliff:g> minutes.</string>
+
+    <!-- ViPER FX Tile -->
+    <string name="quick_settings_viper_fx_label">ViPER FX</string>
+
+    <!-- Content description of the Layers Manager tile in quick settings (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_quick_settings_viper_fx">ViPER FX.</string>
 </resources>

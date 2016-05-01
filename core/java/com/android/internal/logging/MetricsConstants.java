@@ -302,6 +302,7 @@ public interface MetricsConstants {
     public static final int QS_SOUND = 273;
     public static final int QS_VOLUME = 274;
     public static final int QS_CAFFEINE = 275;
+    public static final int QS_VIPER_FX = 276;
 
     // These constants must match those in the analytic pipeline, do not edit.
     // Add temporary values to the top of MetricsLogger instead.
