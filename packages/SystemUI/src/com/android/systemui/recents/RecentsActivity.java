@@ -25,7 +25,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.UserHandle;
@@ -39,7 +38,6 @@ import android.widget.Toast;
 import com.android.internal.logging.MetricsLogger;
 import com.android.systemui.Prefs;
 import com.android.systemui.R;
-import com.android.systemui.recents.RecentsConfiguration;
 import com.android.systemui.recents.misc.Console;
 import com.android.systemui.recents.misc.DebugTrigger;
 import com.android.systemui.recents.misc.ReferenceCountedTrigger;
@@ -279,26 +277,10 @@ public class RecentsActivity extends Activity implements RecentsView.RecentsView
 
             findViewById(R.id.floating_action_button).setVisibility(View.VISIBLE);
 
-            boolean showSearchBar = Settings.System.getInt(getContentResolver(),
-                       Settings.System.RECENTS_SHOW_SEARCH_BAR, 1) == 1;
             if (mRecentsView.hasValidSearchBar()) {
-                if (showSearchBar) {
-                    mRecentsView.setSearchBarVisibility(View.VISIBLE);
-                } else {
-                    mRecentsView.setSearchBarVisibility(View.GONE);
-                }
+                mRecentsView.setSearchBarVisibility(View.VISIBLE);
             } else {
-                if (showSearchBar) {
-                    refreshSearchWidgetView();
-                }
-            }
-
-            // Update search bar space height
-            if (showSearchBar) {
-                RecentsConfiguration.searchBarSpaceHeightPx = getResources().getDimensionPixelSize(
-                    R.dimen.recents_search_bar_space_height);
-            } else {
-                RecentsConfiguration.searchBarSpaceHeightPx = 0;
+                refreshSearchWidgetView();
             }
         }
 
