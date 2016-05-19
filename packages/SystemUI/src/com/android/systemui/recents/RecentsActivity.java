@@ -489,9 +489,6 @@ public class RecentsActivity extends Activity implements RecentsView.RecentsView
     @Override
     protected void onStop() {
         super.onStop();
-
-        mExitTrigger = null;
-
         MetricsLogger.hidden(this, MetricsLogger.OVERVIEW_ACTIVITY);
         mExitTrigger = null;
         RecentsTaskLoader loader = RecentsTaskLoader.getInstance();
