@@ -4207,15 +4207,12 @@ public final class Settings {
         public static final String MUTE_ANNOYING_NOTIFICATIONS_THRESHOLD =
                 "mute_annoying_notifications_threshold";
 
-<<<<<<< HEAD
         /**
          * Whether to use the MTP by default after connecting to PC
          * @hide
          */
         public static final String MTP_DIRTY_HACK = "mtp_dirty_hack";
 
-=======
->>>>>>> parent of f3372b6... SystemUI: Add option to disable search bar in recents (2/2)
         /**
          * Whether the phone ringtone should be played in an increasing manner
          * @hide
