@@ -3946,6 +3946,14 @@ public final class Settings {
          */
         public static final String RECENTS_SHOW_SEARCH_BAR = "recents_show_search_bar";
 
+
+        /**
+         * Whether to display a menu containing 'Wipe data', 'Force close' and other options
+         * in the notification area and in the recent app list
+         * @hide
+         */
+        public static final String DEVELOPMENT_SHORTCUT = "development_shortcut";
+
         /**
          * Navigation bar height when it is on protrait
          * @hide

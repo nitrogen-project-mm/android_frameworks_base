@@ -178,4 +178,13 @@
 
     <!-- Heads up snooze toast -->
     <string name="heads_up_snooze_message">Всплывающие сообщения отложены на <xliff:g id="number">%d</xliff:g> минут.</string>
+
+    <!-- Development shortcuts -->
+    <!-- Title shown in recents popup for wiping application's data -->
+    <string name="advanced_dev_option_wipe_app">Стереть данные</string>
+    <!-- Title shown in recents popup for force stopping the application -->
+    <string name="advanced_dev_option_force_stop">Остановить</string>
+    <!-- Title shown in recents popup for uninstalling the application -->
+    <string name="advanced_dev_option_uninstall">Удалить</string>
+    <string name="status_bar_recent_inspect_item_title">О приложении</string>
 </resources>
