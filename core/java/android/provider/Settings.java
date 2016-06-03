@@ -4223,13 +4223,6 @@ public final class Settings {
         public static final String STATUS_BAR_CUSTOM_HEADER_SHADOW = "status_bar_custom_header_shadow";
 
         /**
-         * Whether to mute annoying notifications
-         * @hide
-         */
-        public static final String MUTE_ANNOYING_NOTIFICATIONS_THRESHOLD =
-                "mute_annoying_notifications_threshold";
-
-        /**
          * Whether to use the MTP by default after connecting to PC
          * @hide
          */
@@ -8772,12 +8765,6 @@ public final class Settings {
          */
         public static final String POLICY_CONTROL = "policy_control";
         public static final String POLICY_CONTROL_SELECTED = "policy_control_selected";
-
-        /**
-         * @hide
-         */
-        public static final String ZEN_DISABLE_DUCKING_DURING_MEDIA_PLAYBACK =
-                "zen_disable_ducking_during_media_playback";
 
         /**
          * Defines global runtime overrides to window policy style.
