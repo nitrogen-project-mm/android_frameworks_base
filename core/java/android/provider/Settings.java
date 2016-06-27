@@ -6854,6 +6854,14 @@ public final class Settings {
         public static final String KILL_APP_LONGPRESS_TIMEOUT = "kill_app_longpress_timeout";
 
         /**
+         * Whether user has enabled floating mode for headsup.
+         * <p>
+         * Type: int (0 for false, 1 for true)
+         * @hide
+         */
+        public static final String FLOATING_HEADSUP = "floating_headsup";
+
+        /**
          * Whether the camera launch gesture should be disabled.
          *
          * @hide
