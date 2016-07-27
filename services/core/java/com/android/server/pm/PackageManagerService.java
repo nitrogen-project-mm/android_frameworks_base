@@ -64,7 +64,6 @@ import static android.content.pm.PackageManager.MOVE_FAILED_OPERATION_PENDING;
 import static android.content.pm.PackageManager.MOVE_FAILED_SYSTEM_PACKAGE;
 import static android.content.pm.PackageManager.PERMISSION_DENIED;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
-import static android.content.pm.PackageManager.INSTALL_FAILED_UNINSTALLED_PREBUNDLE;
 import static android.content.pm.PackageParser.isApkFile;
 import static android.os.Process.PACKAGE_INFO_GID;
 import static android.os.Process.SYSTEM_UID;
@@ -89,7 +88,6 @@ import android.app.ActivityManager;
 import android.app.ActivityManagerNative;
 import android.app.AppGlobals;
 import android.app.IActivityManager;
-import android.app.PackageInstallObserver;
 import android.app.admin.IDevicePolicyManager;
 import android.app.backup.IBackupManager;
 import android.app.usage.UsageStats;
@@ -2112,10 +2110,6 @@ public class PackageManagerService extends IPackageManager.Stub {
             final File oemAppDir = new File(Environment.getOemDirectory(), "app");
             scanDirLI(oemAppDir, PackageParser.PARSE_IS_SYSTEM
                     | PackageParser.PARSE_IS_SYSTEM_DIR, scanFlags, 0);
-
-            // Collect all prebundled packages.
-            scanDirLI(Environment.getPrebundledDirectory(),
-                    PackageParser.PARSE_IS_PREBUNDLED_DIR, scanFlags, 0);
 
             if (DEBUG_UPGRADE) Log.v(TAG, "Running installd update commands");
             mInstaller.moveFiles();
@@ -5651,9 +5645,9 @@ public class PackageManagerService extends IPackageManager.Stub {
 
     private boolean createIdmapForPackagePairLI(PackageParser.Package pkg,
             PackageParser.Package opkg) {
-        if (!opkg.mTrustedOverlay && !(!opkg.mTrustedOverlay && opkg.mOverlayPriority == -1)) {
+        if (!opkg.mTrustedOverlay) {
             Slog.w(TAG, "Skipping target and overlay pair " + pkg.baseCodePath + " and " +
-                    opkg.baseCodePath + ": signatures do not match");
+                    opkg.baseCodePath + ": overlay not trusted");
             return false;
         }
         ArrayMap<String, PackageParser.Package> overlaySet = mOverlays.get(pkg.packageName);
@@ -5673,26 +5667,7 @@ public class PackageManagerService extends IPackageManager.Stub {
             overlaySet.values().toArray(new PackageParser.Package[0]);
         Comparator<PackageParser.Package> cmp = new Comparator<PackageParser.Package>() {
             public int compare(PackageParser.Package p1, PackageParser.Package p2) {
-                if (!p1.mTrustedOverlay && !p2.mTrustedOverlay) {
-                    PackageSetting ps1;
-                    PackageSetting ps2;
-                    synchronized (mPackages) {
-                        ps1 = mSettings.peekPackageLPr(p1.packageName);
-                        if (ps1 == null) {
-                            return 0;
-                        }
-                        ps2 = mSettings.peekPackageLPr(p2.packageName);
-                        if (ps2 == null) {
-                            return 0;
-                        }
-                    }
-                    long diff = ps1.lastUpdateTime - ps2.lastUpdateTime;
-                    return diff == 0 ? 0 : (diff < 0 ? -1 : 1); // long to int, no loss of precision
-                }
-                if (p1.mTrustedOverlay && p2.mTrustedOverlay) {
-                    return p1.mOverlayPriority - p2.mOverlayPriority;
-                }
-                return p1.mTrustedOverlay ? -1 : 1;
+                return p1.mOverlayPriority - p2.mOverlayPriority;
             }
         };
         Arrays.sort(overlayArray, cmp);
@@ -5717,13 +5692,6 @@ public class PackageManagerService extends IPackageManager.Stub {
                     + " flags=0x" + Integer.toHexString(parseFlags));
         }
 
-        boolean isPrebundled = (parseFlags & PackageParser.PARSE_IS_PREBUNDLED_DIR) != 0;
-        if (isPrebundled) {
-            synchronized (mPackages) {
-                mSettings.readPrebundledPackagesLPr();
-            }
-        }
-
         for (File file : files) {
             final boolean isPackage = (isApkFile(file) || file.isDirectory())
                     && !PackageInstallerService.isStageName(file.getName());
@@ -5734,17 +5702,6 @@ public class PackageManagerService extends IPackageManager.Stub {
             try {
                 scanPackageLI(file, parseFlags | PackageParser.PARSE_MUST_BE_APK,
                         scanFlags, currentTime, null);
-                if (isPrebundled) {
-                    final PackageParser.Package pkg;
-                    try {
-                        pkg = new PackageParser().parsePackage(file, parseFlags);
-                    } catch (PackageParserException e) {
-                        throw PackageManagerException.from(e);
-                    }
-                    synchronized (mPackages) {
-                        mSettings.markPrebundledPackageInstalledLPr(pkg.packageName);
-                    }
-                }
             } catch (PackageManagerException e) {
                 Slog.w(TAG, "Failed to parse " + file + ": " + e.getMessage());
 
@@ -5758,12 +5715,6 @@ public class PackageManagerService extends IPackageManager.Stub {
                         file.delete();
                     }
                 }
-            }
-        }
-
-        if (isPrebundled) {
-            synchronized (mPackages) {
-                mSettings.writePrebundledPackagesLPr();
             }
         }
     }
@@ -5860,29 +5811,6 @@ public class PackageManagerService extends IPackageManager.Stub {
             throw PackageManagerException.from(e);
         }
 
-        if ((parseFlags & PackageParser.PARSE_IS_PREBUNDLED_DIR) != 0) {
-            synchronized (mPackages) {
-                PackageSetting existingSettings = mSettings.peekPackageLPr(pkg.packageName);
-                if (mSettings.wasPrebundledPackageInstalledLPr(pkg.packageName) &&
-                        existingSettings == null) {
-                    // The prebundled app was installed at some point in time, but now it is
-                    // gone.  Assume that the user uninstalled it intentionally: do not reinstall.
-                    throw new PackageManagerException(INSTALL_FAILED_UNINSTALLED_PREBUNDLE,
-                            "skip reinstall for " + pkg.packageName);
-                } else if (existingSettings != null
-                        && existingSettings.versionCode >= pkg.mVersionCode
-                        && !existingSettings.codePathString.contains(
-                                Environment.getPrebundledDirectory().getPath())) {
-                    // This app is installed in a location that is not the prebundled location
-                    // and has a higher (or same) version as the prebundled one.  Skip
-                    // installing the prebundled version.
-                    Slog.d(TAG, pkg.packageName + " already installed at " +
-                            existingSettings.codePathString);
-                    return null; // return null so we still mark package as installed
-                }
-            }
-        }
-
         PackageSetting ps = null;
         PackageSetting updatedPkg;
         // reader
@@ -5951,7 +5879,6 @@ public class PackageManagerService extends IPackageManager.Stub {
                     synchronized (mPackages) {
                         // Just remove the loaded entries from package lists.
                         mPackages.remove(ps.name);
-                        removeFromOverlaysLP(ps.pkg);
                     }
 
                     logCriticalInfo(Log.WARN, "Package " + ps.name + " at " + scanFile
@@ -7672,11 +7599,6 @@ public class PackageManagerService extends IPackageManager.Stub {
                                 "scanPackageLI failed to createIdmap");
                     }
                 }
-                PackageParser.Package targetPkg = mPackages.get(pkg.mOverlayTarget);
-                if (targetPkg != null) {
-                    killApplication(pkg.mOverlayTarget, targetPkg.applicationInfo.uid,
-                            "overlay package installed");
-                }
             } else if (mOverlays.containsKey(pkg.packageName) &&
                     !pkg.packageName.equals("android")) {
                 // This is a regular package, with one or more known overlay packages.
@@ -8370,8 +8292,6 @@ public class PackageManagerService extends IPackageManager.Stub {
         if (r != null) {
             if (DEBUG_REMOVE) Log.d(TAG, "  Libraries: " + r);
         }
-        
-        removeFromOverlaysLP(pkg);
     }
 
     private static boolean hasPermission(PackageParser.Package pkgInfo, String perm) {
@@ -16739,41 +16659,6 @@ public class PackageManagerService extends IPackageManager.Stub {
                                     + before.splitRevisionCodes[j]);
                         }
                     }
-                }
-            }
-        }
-    }
-    
-    private void removeFromOverlaysLP(PackageParser.Package pkg) {
-        if (pkg == null) {
-            return;
-        }
-        if (pkg.mOverlayTarget == null) {
-            // regular package
-            ArrayMap<String, PackageParser.Package> map = mOverlays.get(pkg.mOverlayTarget);
-            if (map != null) {
-                for (PackageParser.Package opkg : map.values()) {
-                    mInstaller.removeIdmap(opkg.baseCodePath);
-                }
-            }
-            mOverlays.remove(pkg.packageName);
-        } else {
-            // overlay package
-            PackageParser.Package target = mPackages.get(pkg.mOverlayTarget);
-            if (target != null && target.applicationInfo.resourceDirs != null) {
-                killApplication(pkg.mOverlayTarget, target.applicationInfo.uid,
-                        "overlay package removed");
-                ArrayList<String> tmp =
-                    new ArrayList<String>(Arrays.asList(target.applicationInfo.resourceDirs));
-                tmp.remove(pkg.applicationInfo.sourceDir);
-                target.applicationInfo.resourceDirs = tmp.toArray(new String[0]);
-            }
-
-            mInstaller.removeIdmap(pkg.baseCodePath);
-
-            for (ArrayMap<String, PackageParser.Package> map : mOverlays.values()) {
-                if (map.containsKey(pkg.packageName)) {
-                    map.remove(pkg.packageName);
                 }
             }
         }

@@ -614,7 +614,6 @@ public class PackageParser {
     public final static int PARSE_IS_PRIVILEGED = 1<<7;
     public final static int PARSE_COLLECT_CERTIFICATES = 1<<8;
     public final static int PARSE_TRUSTED_OVERLAY = 1<<9;
-    public final static int PARSE_IS_PREBUNDLED_DIR = 1<<10;
 
     private static final Comparator<String> sSplitNameComparator = new SplitNameComparator();
 
@@ -1480,17 +1479,12 @@ public class PackageParser {
                     mParseError = PackageManager.INSTALL_PARSE_FAILED_MANIFEST_MALFORMED;
                     return null;
                 }
-
-                if (pkg.mOverlayPriority != -1 && !trustedOverlay) {
-                    Slog.w(TAG, "overlay package " + pkgName + " installed in " +
-                            "unreliable location, priority will be ignored");
-                    pkg.mOverlayPriority = -1;
-                } else if (pkg.mOverlayPriority == -1 && trustedOverlay) {
-                    outError[0] = "Trusted overlay requires a priority attribute";
-                    mParseError = PackageManager.INSTALL_PARSE_FAILED_MANIFEST_MALFORMED;
+                if (pkg.mOverlayPriority < 0 || pkg.mOverlayPriority > 9999) {
+                    outError[0] = "<overlay> priority must be between 0 and 9999";
+                    mParseError =
+                        PackageManager.INSTALL_PARSE_FAILED_MANIFEST_MALFORMED;
                     return null;
                 }
-
                 XmlUtils.skipCurrentTag(parser);
 
             } else if (tagName.equals("key-sets")) {
