@@ -25,10 +25,12 @@ import android.bluetooth.BluetoothAssignedNumbers;
 import android.bluetooth.BluetoothHeadset;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.database.ContentObserver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.UserInfo;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.IRemoteCallback;
 import android.os.RemoteException;
@@ -85,6 +87,7 @@ public class PhoneStatusBarPolicy implements Callback {
     private boolean mVolumeVisible;
     private boolean mCurrentUserSetup;
     private Float mBluetoothBatteryLevel = null;
+    private boolean mShowBluetoothBattery;
 
     private int mZen;
 
@@ -169,6 +172,12 @@ public class PhoneStatusBarPolicy implements Callback {
         //Update initial tty mode
         updateTTYMode();
 
+        //Bluetooth icon
+        mBTIconObserver.onChange(true);
+        mContext.getContentResolver().registerContentObserver(
+                Settings.System.getUriFor(Settings.System.BLUETOOTH_SHOW_BATTERY),
+                false, mBTIconObserver);
+
         // Alarm clock
         mService.setIcon(SLOT_ALARM_CLOCK, R.drawable.stat_sys_alarm, 0, null);
         mService.setIconVisibility(SLOT_ALARM_CLOCK, false);
@@ -202,6 +211,20 @@ public class PhoneStatusBarPolicy implements Callback {
                 mContext.getString(R.string.accessibility_managed_profile));
         mService.setIconVisibility(SLOT_MANAGED_PROFILE, false);
     }
+
+    private ContentObserver mBTIconObserver = new ContentObserver(null) {
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            mShowBluetoothBattery = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.BLUETOOTH_SHOW_BATTERY, 0) == 1;
+            updateBluetooth();
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            onChange(selfChange, null);
+        }
+    };
 
     private final void updateHeadset(Intent intent) {
         int state = intent.getIntExtra("state", 0);
@@ -359,9 +382,9 @@ public class PhoneStatusBarPolicy implements Callback {
         if (mBluetooth != null) {
             bluetoothEnabled = mBluetooth.isBluetoothEnabled();
             if (mBluetooth.isBluetoothConnected()) {
-                if (mBluetoothBatteryLevel == null) {
+                if (mBluetoothBatteryLevel == null && !mShowBluetoothBattery) {
                     iconId = R.drawable.stat_sys_data_bluetooth_connected;
-                } else {
+                } else if (mBluetoothBatteryLevel != null && mShowBluetoothBattery) {
                     if (mBluetoothBatteryLevel<=0.15f) {
                         iconId = R.drawable.stat_sys_data_bluetooth_connected_battery_1;
                     } else if (mBluetoothBatteryLevel<=0.375f) {
@@ -383,6 +406,7 @@ public class PhoneStatusBarPolicy implements Callback {
         mService.setIcon(SLOT_BLUETOOTH, iconId, 0, contentDescription);
         mService.setIconVisibility(SLOT_BLUETOOTH, bluetoothEnabled);
     }
+
 
     private final void updateTTY(Intent intent) {
         int currentTtyMode = intent.getIntExtra(TelecomManager.EXTRA_CURRENT_TTY_MODE,
